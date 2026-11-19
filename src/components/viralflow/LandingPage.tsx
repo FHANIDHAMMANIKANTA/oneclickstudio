@@ -36,6 +36,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
   // Accordion state for the 7 FAQ questions
   const [openFaq, setOpenFaq] = useState<number | null>(0); // First question open by default
 
+  // Billing cycle toggle
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
+
   // Legal modal state
   const [legalModalType, setLegalModalType] = useState<LegalModalType>(null);
 
@@ -601,74 +604,171 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
       </section>
 
       {/* 7. Pricing Section (India-First & Global) */}
-      <section id="pricing" className="px-6 sm:px-12 py-20 max-w-7xl mx-auto w-full text-left space-y-12">
+      <section id="pricing" className="px-6 sm:px-12 py-20 max-w-7xl mx-auto w-full text-left space-y-10">
         <div className="text-center max-w-xl mx-auto space-y-3">
           <div className="text-xs font-black tracking-widest text-[#FF5B37] uppercase">
             PRICING PLANS
           </div>
           <h2 className="font-display text-4xl sm:text-5xl font-black tracking-tighter text-[#0A0A0A]">
-            Transparent pricing. Cancel anytime.
+            Best prices for creators & teams.
           </h2>
-          <p className="text-xs text-neutral-600 font-medium">
-            Rupee pricing with automatic UPI & GST tax invoices for Indian creators & global teams.
+          <p className="text-xs sm:text-sm text-neutral-600 font-medium">
+            Rupee pricing with automatic UPI Autopay & GST tax invoices for Indian creators & global teams.
           </p>
+
+          {/* Monthly / Annual Billing Toggle */}
+          <div className="pt-4 flex items-center justify-center gap-3">
+            <button
+              onClick={() => setBillingCycle('monthly')}
+              className={`px-4 py-1.5 text-xs font-display font-black border-2 border-[#0A0A0A] transition-all cursor-pointer ${
+                billingCycle === 'monthly'
+                  ? 'bg-[#0A0A0A] text-white shadow-brutal-xs'
+                  : 'bg-white text-neutral-700 hover:bg-neutral-50'
+              }`}
+            >
+              Monthly Billing
+            </button>
+            <button
+              onClick={() => setBillingCycle('annual')}
+              className={`px-4 py-1.5 text-xs font-display font-black border-2 border-[#0A0A0A] transition-all cursor-pointer flex items-center gap-1.5 ${
+                billingCycle === 'annual'
+                  ? 'bg-[#0A0A0A] text-white shadow-brutal-xs'
+                  : 'bg-white text-neutral-700 hover:bg-neutral-50'
+              }`}
+            >
+              <span>Annual Billing</span>
+              <span className="px-1.5 py-0.5 bg-[#B8FF5C] text-[#0A0A0A] text-[10px] font-mono font-bold">
+                Save 25% + 2 Mo Free
+              </span>
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto items-stretch">
           {/* Creator */}
           <div className="card-brutal p-6 flex flex-col justify-between space-y-6 bg-white">
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="font-display font-bold text-lg text-[#0A0A0A]">Creator</span>
+                <div>
+                  <span className="font-display font-bold text-lg text-[#0A0A0A]">Creator</span>
+                  <div className="text-[11px] text-neutral-500 font-mono mt-0.5">Solo Creators & Starters</div>
+                </div>
                 <span className="text-[10px] font-mono px-2 py-0.5 bg-neutral-100 border border-[#0A0A0A]">Solo</span>
               </div>
-              <div className="flex items-baseline gap-1 font-display">
-                <span className="text-4xl font-black">₹499</span>
-                <span className="text-xs text-neutral-600">/ mo</span>
+              <div className="space-y-1">
+                <div className="flex items-baseline gap-2 font-display">
+                  <span className="text-4xl font-black text-[#0A0A0A]">
+                    ₹{billingCycle === 'monthly' ? '399' : '299'}
+                  </span>
+                  <span className="text-xs text-neutral-600 font-mono">/ month</span>
+                  <span className="text-xs text-neutral-400 line-through font-mono ml-2">
+                    ₹{billingCycle === 'monthly' ? '699' : '499'}
+                  </span>
+                </div>
+                {billingCycle === 'annual' && (
+                  <div className="text-[11px] text-emerald-700 font-mono font-bold">
+                    Billed ₹3,588/yr (Save ₹1,200 annually)
+                  </div>
+                )}
               </div>
-              <p className="text-xs text-neutral-600 font-medium">For rising creators growing their social footprint across networks.</p>
-              <div className="space-y-2 text-xs font-semibold pt-4 border-t-2 border-[#0A0A0A]/10">
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37]" /> 5 Social Accounts</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37]" /> Unlimited Post Scheduling</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37]" /> 300 AI Credits / mo</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37]" /> 1 Live Comment-to-DM Bot</div>
+              <p className="text-xs text-neutral-600 font-medium leading-relaxed">
+                Essential tools for solo creators to schedule posts and grow social presence.
+              </p>
+              <div className="space-y-2.5 text-xs font-semibold pt-4 border-t-2 border-[#0A0A0A]/10 text-neutral-800">
+                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37] shrink-0 stroke-[3]" /> 5 Connected Social Accounts</div>
+                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37] shrink-0 stroke-[3]" /> Unlimited Post Scheduling & Calendar</div>
+                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37] shrink-0 stroke-[3]" /> 500 AI Studio Credits / mo</div>
+                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37] shrink-0 stroke-[3]" /> 2 Active Comment-to-DM Bots</div>
+                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37] shrink-0 stroke-[3]" /> 1080p Video Studio Exports</div>
               </div>
             </div>
             <button
               onClick={onEnterApp}
               className="w-full py-3 bg-white hover:bg-neutral-50 text-[#0A0A0A] font-display font-bold text-xs border-2 border-[#0A0A0A] shadow-brutal transition-all cursor-pointer"
             >
-              Get Started
+              Get Started Free
             </button>
           </div>
 
-          {/* Pro (Highlighted in Flame & Hard Shadow) */}
-          <div className="card-brutal p-6 bg-[#FF5B37] text-white flex flex-col justify-between space-y-6 relative transform -translate-y-2 shadow-brutal-lg">
-            <div className="absolute -top-3 right-6 bg-[#B8FF5C] text-[#0A0A0A] border-2 border-[#0A0A0A] px-3 py-0.5 font-display font-black text-[10px] uppercase tracking-wider">
-              MOST POPULAR
+          {/* Pro (Highlighted in Deep Jet Black & Electric Lime) */}
+          <div 
+            style={{ backgroundColor: '#0A0A0A' }}
+            className="p-6 md:p-7 text-white flex flex-col justify-between space-y-6 relative border-2 border-[#0A0A0A] shadow-brutal-lg transform md:-translate-y-2 z-10"
+          >
+            {/* Top Popular Badge */}
+            <div className="absolute -top-3.5 right-6 bg-[#B8FF5C] text-[#0A0A0A] border-2 border-[#0A0A0A] px-3.5 py-1 font-display font-black text-[11px] uppercase tracking-wider flex items-center gap-1 shadow-brutal-xs">
+              <Sparkles className="w-3.5 h-3.5 fill-[#0A0A0A]" />
+              MOST POPULAR · 50% OFF
             </div>
+
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="font-display font-bold text-lg text-white">Pro Studio</span>
+                <div>
+                  <span className="font-display font-black text-xl text-white">Pro Studio</span>
+                  <div className="text-[11px] text-[#B8FF5C] font-mono font-bold mt-0.5">
+                    Best Value for Creators & Video Editors
+                  </div>
+                </div>
+                <span className="text-[10px] font-mono px-2 py-0.5 bg-neutral-800 text-[#B8FF5C] border border-[#B8FF5C]/40">
+                  Full Suite
+                </span>
               </div>
-              <div className="flex items-baseline gap-1 font-display">
-                <span className="text-4xl font-black text-white">₹1,499</span>
-                <span className="text-xs text-white/80">/ mo</span>
+
+              <div className="space-y-1">
+                <div className="flex items-baseline gap-2 font-display">
+                  <span className="text-4xl sm:text-5xl font-black text-white">
+                    ₹{billingCycle === 'monthly' ? '899' : '699'}
+                  </span>
+                  <span className="text-xs text-neutral-400 font-mono">/ month</span>
+                  <span className="text-xs text-neutral-400 line-through font-mono ml-2">
+                    ₹{billingCycle === 'monthly' ? '1,799' : '1,399'}
+                  </span>
+                </div>
+                {billingCycle === 'annual' && (
+                  <div className="text-[11px] text-[#B8FF5C] font-mono font-bold">
+                    Billed ₹8,388/yr (Save ₹2,400 annually + 2 Mo Free)
+                  </div>
+                )}
               </div>
-              <p className="text-xs text-white/90 font-medium">For full automation power, Hivepostly Studio and DM bot scaling.</p>
-              <div className="space-y-2 text-xs font-bold pt-4 border-t-2 border-white/20">
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#B8FF5C]" /> All 8 Connected Accounts (Includes Pinterest)</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#B8FF5C]" /> 1,200 AI Studio Credits</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#B8FF5C]" /> Hivepostly Studio & Auto-Karaoke Subtitles</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#B8FF5C]" /> 10 Live Comment-to-DM Bots</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#B8FF5C]" /> Post Doctor Virality Audit</div>
+
+              <p className="text-xs text-neutral-300 font-medium leading-relaxed">
+                Full 8-network broadcast automation, dedicated Video Studio, and unlimited DM bots.
+              </p>
+
+              <div className="space-y-2.5 text-xs font-semibold pt-4 border-t border-neutral-800">
+                <div className="flex items-center gap-2.5 text-white">
+                  <Check className="w-4 h-4 text-[#B8FF5C] shrink-0 stroke-[3]" />
+                  <span><strong>All 8 Social Networks</strong> (Instagram, Facebook, YouTube, TikTok, X, Threads, LinkedIn, Pinterest)</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-white">
+                  <Check className="w-4 h-4 text-[#B8FF5C] shrink-0 stroke-[3]" />
+                  <span><strong>Dedicated Video & Reel Studio</strong> with 4K Exports & Subtitles</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-white">
+                  <Check className="w-4 h-4 text-[#B8FF5C] shrink-0 stroke-[3]" />
+                  <span><strong>1-Click Direct Post Bridge</strong> (Video Editor to Composer)</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-white">
+                  <Check className="w-4 h-4 text-[#B8FF5C] shrink-0 stroke-[3]" />
+                  <span><strong>2,000 AI Studio Credits / mo</strong> (Hooks, Scripts, Thumbnails)</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-white">
+                  <Check className="w-4 h-4 text-[#B8FF5C] shrink-0 stroke-[3]" />
+                  <span><strong>Unlimited Comment-to-DM</strong> Lead Magnet Automations</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-white">
+                  <Check className="w-4 h-4 text-[#B8FF5C] shrink-0 stroke-[3]" />
+                  <span><strong>Post Doctor</strong> Virality Audit & Best-Time Heatmap</span>
+                </div>
               </div>
             </div>
+
             <button
               onClick={onEnterApp}
-              className="w-full py-3.5 bg-[#0A0A0A] hover:bg-white text-white hover:text-[#0A0A0A] font-display font-black text-sm border-2 border-[#0A0A0A] shadow-brutal transition-all cursor-pointer"
+              className="w-full py-3.5 bg-[#B8FF5C] hover:bg-[#a6f543] text-[#0A0A0A] font-display font-black text-sm uppercase tracking-wide border-2 border-[#0A0A0A] shadow-brutal transition-all cursor-pointer flex items-center justify-center gap-2 hover:translate-x-0.5 hover:translate-y-0.5"
             >
-              Launch Pro Studio
+              <span>Launch Pro Studio (7-Day Trial)</span>
+              <span>→</span>
             </button>
           </div>
 
@@ -676,27 +776,67 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
           <div className="card-brutal p-6 flex flex-col justify-between space-y-6 bg-white">
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="font-display font-bold text-lg text-[#0A0A0A]">Agency</span>
+                <div>
+                  <span className="font-display font-bold text-lg text-[#0A0A0A]">Agency & Studio</span>
+                  <div className="text-[11px] text-neutral-500 font-mono mt-0.5">Multi-Brand & Team Scale</div>
+                </div>
                 <span className="text-[10px] font-mono px-2 py-0.5 bg-neutral-100 border border-[#0A0A0A]">Multi-Brand</span>
               </div>
-              <div className="flex items-baseline gap-1 font-display">
-                <span className="text-4xl font-black">₹4,999</span>
-                <span className="text-xs text-neutral-600">/ mo</span>
+              <div className="space-y-1">
+                <div className="flex items-baseline gap-2 font-display">
+                  <span className="text-4xl font-black text-[#0A0A0A]">
+                    ₹{billingCycle === 'monthly' ? '2,499' : '1,999'}
+                  </span>
+                  <span className="text-xs text-neutral-600 font-mono">/ month</span>
+                  <span className="text-xs text-neutral-400 line-through font-mono ml-2">
+                    ₹{billingCycle === 'monthly' ? '4,999' : '3,999'}
+                  </span>
+                </div>
+                {billingCycle === 'annual' && (
+                  <div className="text-[11px] text-emerald-700 font-mono font-bold">
+                    Billed ₹23,988/yr (Save ₹6,000 annually)
+                  </div>
+                )}
               </div>
-              <p className="text-xs text-neutral-600 font-medium">Manage multiple creator and brand portfolios with approval queues.</p>
-              <div className="space-y-2 text-xs font-semibold pt-4 border-t-2 border-[#0A0A0A]/10">
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37]" /> Unlimited Accounts & Client Workspaces</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37]" /> 5,000 AI Credits</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37]" /> Unlimited Comment-to-DM Bots</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37]" /> Client Approval Portal & GST Invoicing</div>
+              <p className="text-xs text-neutral-600 font-medium leading-relaxed">
+                Manage multiple client brands with approval portals, unlimited accounts and GST billing.
+              </p>
+              <div className="space-y-2.5 text-xs font-semibold pt-4 border-t-2 border-[#0A0A0A]/10 text-neutral-800">
+                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37] shrink-0 stroke-[3]" /> Unlimited Accounts & Client Workspaces</div>
+                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37] shrink-0 stroke-[3]" /> 10,000 AI Credits / mo</div>
+                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37] shrink-0 stroke-[3]" /> Unlimited Comment-to-DM Bots & Webhooks</div>
+                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37] shrink-0 stroke-[3]" /> White-Label Client Approval Portal</div>
+                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37] shrink-0 stroke-[3]" /> GST Tax Invoicing & Automatic UPI Autopay</div>
+                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-[#FF5B37] shrink-0 stroke-[3]" /> Dedicated WhatsApp Account Manager</div>
               </div>
             </div>
             <button
               onClick={onEnterApp}
               className="w-full py-3 bg-white hover:bg-neutral-50 text-[#0A0A0A] font-display font-bold text-xs border-2 border-[#0A0A0A] shadow-brutal transition-all cursor-pointer"
             >
-              Contact Sales
+              Get Agency Plan
             </button>
+          </div>
+        </div>
+
+        {/* India Payment Features & Trust Bar */}
+        <div className="card-brutal p-5 bg-[#FFFDF8] max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono text-neutral-700">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-center sm:text-left">
+            <span className="flex items-center gap-1.5 font-bold text-[#0A0A0A]">
+              <Check className="w-4 h-4 text-emerald-600 stroke-[3]" />
+              UPI Autopay & QR (GPay, PhonePe, Paytm)
+            </span>
+            <span className="flex items-center gap-1.5 font-bold text-[#0A0A0A]">
+              <Check className="w-4 h-4 text-emerald-600 stroke-[3]" />
+              All Credit/Debit Cards & NetBanking
+            </span>
+            <span className="flex items-center gap-1.5 font-bold text-[#0A0A0A]">
+              <Check className="w-4 h-4 text-emerald-600 stroke-[3]" />
+              18% GST Input Tax Credit Invoices
+            </span>
+          </div>
+          <div className="px-3 py-1 bg-[#B8FF5C] border border-[#0A0A0A] font-bold text-[11px] text-[#0A0A0A] shrink-0">
+            🛡️ 14-Day Money-Back Guarantee
           </div>
         </div>
       </section>
