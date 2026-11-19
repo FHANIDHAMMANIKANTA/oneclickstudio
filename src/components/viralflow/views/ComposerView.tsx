@@ -61,7 +61,6 @@ export const ComposerView: React.FC<ComposerViewProps> = ({
     'TikTok',
   ]);
 
-  const [activePreview, setActivePreview] = useState<'Twitter / X' | 'Instagram' | 'LinkedIn' | 'TikTok'>('Twitter / X');
   const [scheduleTime, setScheduleTime] = useState('2026-11-16T19:30');
   const [isPublishing, setIsPublishing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -642,199 +641,155 @@ export const ComposerView: React.FC<ComposerViewProps> = ({
           </div>
         </div>
 
-        {/* Right Live Native Previews (5 cols) */}
+        {/* Right Live Video Player & 8-Network Broadcast Monitor (5 cols) */}
         <div className="lg:col-span-5 space-y-4">
+          {/* Header */}
           <div className="flex items-center justify-between">
-            <div className="text-xs font-black tracking-widest uppercase text-neutral-500 font-mono">
-              LIVE NATIVE PREVIEWS
+            <div className="text-xs font-black tracking-widest uppercase text-neutral-500 font-mono flex items-center gap-2">
+              <Video className="w-3.5 h-3.5 text-[#FF5B37]" />
+              <span>LIVE VIDEO & BROADCAST MONITOR</span>
             </div>
-            {/* Switch preview platform */}
-            <div className="flex items-center gap-1 border-2 border-[#0A0A0A] p-0.5 bg-white">
-              {(['Twitter / X', 'Instagram', 'LinkedIn', 'TikTok'] as const).map((p) => (
-                <button
-                  key={p}
-                  onClick={() => setActivePreview(p)}
-                  className={`px-2 py-1 text-[10px] font-display font-bold transition-all ${
-                    activePreview === p
-                      ? 'bg-[#0A0A0A] text-white'
-                      : 'text-neutral-600 hover:text-[#0A0A0A]'
-                  }`}
-                >
-                  {p}
-                </button>
-              ))}
-            </div>
+            <span className="px-2 py-0.5 bg-[#B8FF5C] border border-[#0A0A0A] text-[10px] font-mono font-black uppercase">
+              {platforms.length} OF 8 QUEUED
+            </span>
           </div>
 
-          {/* Twitter / X Mockup */}
-          {activePreview === 'Twitter / X' && (
-            <div className="card-brutal p-5 bg-white space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#0A0A0A] text-white border-2 border-[#0A0A0A] flex items-center justify-center font-display font-bold text-sm">
-                  HP
+          {/* Dedicated Real Video Player Card */}
+          <div className="card-brutal p-4 bg-white space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-neutral-100">
+              <div className="flex items-center gap-2 truncate">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                <span className="text-xs font-display font-bold text-[#0A0A0A] truncate">
+                  {media ? media.name : 'No video attached'}
+                </span>
+              </div>
+              <a
+                href="/editor.html"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[11px] font-mono font-bold text-[#FF5B37] hover:underline flex items-center gap-1 shrink-0"
+              >
+                <span>Open in Studio</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </div>
+
+            {/* Video / Media Display */}
+            {media ? (
+              <div className="border-2 border-[#0A0A0A] bg-black overflow-hidden relative group rounded-none">
+                {media.type === 'video' ? (
+                  <video
+                    src={media.url}
+                    controls
+                    playsInline
+                    className="w-full aspect-video object-contain bg-black"
+                  />
+                ) : (
+                  <img
+                    src={media.url}
+                    alt="Composer Media"
+                    className="w-full aspect-video object-contain bg-black"
+                  />
+                )}
+                <div className="p-2 bg-[#0A0A0A] text-white text-[10px] font-mono flex items-center justify-between border-t border-neutral-800">
+                  <span className="flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-[#B8FF5C]" />
+                    {media.type === 'video' ? 'Hardware-Accelerated Stream' : 'High-Res Image Asset'}
+                  </span>
+                  <span className="text-neutral-400 font-bold uppercase">{media.type}</span>
                 </div>
-                <div>
-                  <div className="flex items-center gap-1 font-display font-bold text-sm text-[#0A0A0A]">
-                    <span>Hivepostly Creator</span>
-                    <span className="w-3 h-3 bg-[#4D9FFF] rounded-full inline-block" />
+              </div>
+            ) : (
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="border-2 border-dashed border-[#0A0A0A] p-8 text-center bg-[#FFFDF8] hover:bg-neutral-50 cursor-pointer transition-all space-y-2"
+              >
+                <Upload className="w-8 h-8 text-neutral-400 mx-auto" />
+                <div className="text-xs font-display font-bold text-[#0A0A0A]">
+                  No Video Connected Yet
+                </div>
+                <div className="text-[11px] text-neutral-500 font-mono">
+                  Upload a video file or click "Open Editor" to create and transfer a video.
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Real-Time Selected Accounts Distribution Board */}
+          <div className="card-brutal p-4 bg-white space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-black tracking-widest uppercase text-neutral-500 font-mono">
+                DISPATCH QUEUE ({platforms.length} SOCIAL ACCOUNTS)
+              </span>
+              <span className="text-[10px] font-mono font-bold text-neutral-500 uppercase">
+                1-Click Multi-Post
+              </span>
+            </div>
+
+            {platforms.length > 0 ? (
+              <div className="space-y-2 max-h-[260px] overflow-y-auto pr-1">
+                {PLATFORM_ACCOUNTS.filter((acc) => platforms.includes(acc.id)).map((account) => (
+                  <div
+                    key={account.id}
+                    className="p-2.5 bg-[#FFFDF8] border-2 border-[#0A0A0A] flex items-center justify-between gap-3 shadow-brutal-xs"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className={`w-6 h-6 rounded flex items-center justify-center text-white text-[11px] font-black shrink-0 border border-[#0A0A0A] ${account.iconColor}`}>
+                        {account.iconText}
+                      </span>
+                      <div className="min-w-0">
+                        <div className="font-display font-bold text-xs text-[#0A0A0A] leading-tight truncate">
+                          {account.name}
+                        </div>
+                        <div className="text-[10px] text-neutral-500 font-mono truncate">
+                          {account.handle}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      {isPublishing ? (
+                        <span className="px-2 py-0.5 bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-mono font-bold animate-pulse">
+                          Broadcasting...
+                        </span>
+                      ) : isSuccess ? (
+                        <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-mono font-bold flex items-center gap-1">
+                          <Check className="w-3 h-3 stroke-[3]" /> Live
+                        </span>
+                      ) : (
+                        <span className="px-2 py-0.5 bg-[#B8FF5C]/30 text-[#0A0A0A] border border-[#0A0A0A] text-[10px] font-mono font-bold">
+                          ● Armed
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <div className="text-[11px] text-neutral-500 font-mono">@hivepostly_ai · Just now</div>
-                </div>
+                ))}
               </div>
-
-              <p className="text-xs text-neutral-800 font-medium leading-relaxed whitespace-pre-line font-body">
-                {caption}
-              </p>
-
-              {/* Real Video or Image Preview */}
-              {media && (
-                <div className="border-2 border-[#0A0A0A] aspect-video overflow-hidden bg-black flex items-center justify-center">
-                  {media.type === 'video' ? (
-                    <video
-                      src={media.url}
-                      controls
-                      playsInline
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <img
-                      src={media.url}
-                      alt="Post preview"
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                </div>
-              )}
-
-              <div className="flex items-center justify-between text-xs text-neutral-500 font-mono pt-2 border-t border-neutral-200">
-                <span>💬 48</span>
-                <span>🔁 124</span>
-                <span>♥ 892</span>
-                <span>🔖 341</span>
+            ) : (
+              <div className="p-4 bg-amber-50 border-2 border-dashed border-amber-300 text-center text-xs font-mono text-amber-800">
+                ⚠️ No social accounts selected. Check the accounts on the left to include them in this post.
               </div>
+            )}
+          </div>
+
+          {/* Live Caption & Trigger Inspection */}
+          <div className="card-brutal p-4 bg-white space-y-2">
+            <div className="flex items-center justify-between text-xs font-mono">
+              <span className="font-black text-neutral-500 uppercase">CAPTION PREVIEW</span>
+              <span className="font-bold text-neutral-500">{caption.length} chars</span>
             </div>
-          )}
-
-          {/* Instagram Mockup */}
-          {activePreview === 'Instagram' && (
-            <div className="card-brutal p-4 bg-white space-y-3">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-[#FF5B37] border-2 border-[#0A0A0A] flex items-center justify-center text-white text-xs font-black">
-                  IG
-                </div>
-                <div className="text-xs font-display font-bold text-[#0A0A0A]">hivepostly.ai</div>
+            <p className="text-xs text-neutral-800 font-medium leading-relaxed whitespace-pre-line bg-[#FFFDF8] p-3 border border-neutral-200 max-h-32 overflow-y-auto font-body">
+              {caption || <span className="text-neutral-400 italic">Caption is currently empty...</span>}
+            </p>
+            {attachCommentBot && (
+              <div className="p-2 bg-purple-50 border border-purple-200 text-[11px] font-mono text-purple-900 flex items-center gap-1.5">
+                <Bot className="w-3.5 h-3.5 text-purple-700 shrink-0" />
+                <span className="truncate">
+                  Bot Trigger: Auto-reply to comments containing <strong>"{dmKeyword || 'TOOLS'}"</strong> with {dmMediaType.toUpperCase()}.
+                </span>
               </div>
-
-              {/* Real Video or Image Preview */}
-              {media && (
-                <div className="border-2 border-[#0A0A0A] aspect-square overflow-hidden bg-black flex items-center justify-center">
-                  {media.type === 'video' ? (
-                    <video
-                      src={media.url}
-                      controls
-                      playsInline
-                      loop
-                      autoPlay
-                      muted
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <img
-                      src={media.url}
-                      alt="Instagram Media"
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                </div>
-              )}
-
-              <div className="space-y-1 text-xs">
-                <div className="flex gap-3 text-neutral-700">
-                  <span className="font-bold">♥ 14.8K</span>
-                  <span className="font-bold">💬 642</span>
-                  <span className="font-bold">↗ 2.1K</span>
-                </div>
-                <p className="text-xs text-neutral-800 line-clamp-3 font-medium">
-                  <strong className="font-display font-bold">hivepostly.ai</strong> {caption}
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* LinkedIn Mockup */}
-          {activePreview === 'LinkedIn' && (
-            <div className="card-brutal p-5 bg-white space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#0A66C2] text-white border-2 border-[#0A0A0A] flex items-center justify-center font-display font-bold text-sm">
-                  in
-                </div>
-                <div>
-                  <div className="font-display font-bold text-sm text-[#0A0A0A]">Fhanidham · AI Founder</div>
-                  <div className="text-[10px] text-neutral-500">68K Followers • Just now</div>
-                </div>
-              </div>
-
-              <p className="text-xs text-neutral-800 leading-relaxed font-medium">
-                {caption}
-              </p>
-
-              {media && (
-                <div className="border-2 border-[#0A0A0A] aspect-video overflow-hidden bg-black">
-                  {media.type === 'video' ? (
-                    <video
-                      src={media.url}
-                      controls
-                      playsInline
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <img
-                      src={media.url}
-                      alt="LinkedIn media"
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* TikTok Mockup */}
-          {activePreview === 'TikTok' && (
-            <div className="card-brutal p-4 bg-black text-white space-y-3">
-              <div className="flex items-center justify-between text-xs font-mono text-neutral-400">
-                <span>@hivepostly.ai</span>
-                <span className="px-2 py-0.5 bg-[#FF5B37] text-white text-[10px] font-bold">TikTok Feed</span>
-              </div>
-
-              {media && (
-                <div className="relative aspect-[9/16] max-h-[380px] mx-auto border-2 border-neutral-700 bg-neutral-900 overflow-hidden">
-                  {media.type === 'video' ? (
-                    <video
-                      src={media.url}
-                      controls
-                      playsInline
-                      loop
-                      autoPlay
-                      muted
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <img
-                      src={media.url}
-                      alt="TikTok Media"
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                  <div className="absolute bottom-3 left-3 right-3 text-left">
-                    <p className="text-[11px] line-clamp-2 text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
-                      {caption}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
