@@ -771,25 +771,6 @@ export const ComposerView: React.FC<ComposerViewProps> = ({
               </div>
             )}
           </div>
-
-          {/* Live Caption & Trigger Inspection */}
-          <div className="card-brutal p-4 bg-white space-y-2">
-            <div className="flex items-center justify-between text-xs font-mono">
-              <span className="font-black text-neutral-500 uppercase">CAPTION PREVIEW</span>
-              <span className="font-bold text-neutral-500">{caption.length} chars</span>
-            </div>
-            <p className="text-xs text-neutral-800 font-medium leading-relaxed whitespace-pre-line bg-[#FFFDF8] p-3 border border-neutral-200 max-h-32 overflow-y-auto font-body">
-              {caption || <span className="text-neutral-400 italic">Caption is currently empty...</span>}
-            </p>
-            {attachCommentBot && (
-              <div className="p-2 bg-purple-50 border border-purple-200 text-[11px] font-mono text-purple-900 flex items-center gap-1.5">
-                <Bot className="w-3.5 h-3.5 text-purple-700 shrink-0" />
-                <span className="truncate">
-                  Bot Trigger: Auto-reply to comments containing <strong>"{dmKeyword || 'TOOLS'}"</strong> with {dmMediaType.toUpperCase()}.
-                </span>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </div>
