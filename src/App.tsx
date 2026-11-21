@@ -34,6 +34,23 @@ export function App() {
   const [creditsRemaining, setCreditsRemaining] = useState(245);
   const [composerInitialCaption, setComposerInitialCaption] = useState<string | undefined>(undefined);
   const [composerInitialMedia, setComposerInitialMedia] = useState<{ url: string; type: 'video' | 'image'; name: string } | undefined>(undefined);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
+    try {
+      return localStorage.getItem('sidebar_collapsed') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(prev => {
+      const next = !prev;
+      try {
+        localStorage.setItem('sidebar_collapsed', String(next));
+      } catch {}
+      return next;
+    });
+  };
 
   // Tab Titles
   const getTabTitle = (tab: ViralFlowTab) => {
@@ -168,11 +185,13 @@ export function App() {
       ) : (
         /* 2. In-App Command Room View */
         <div className="flex h-screen overflow-hidden">
-          {/* 260px Left Sidebar */}
+          {/* Collapsible Left Sidebar */}
           <Sidebar
             activeTab={activeTab}
             onTabChange={setActiveTab}
             userEmail={userEmail}
+            isCollapsed={isSidebarCollapsed}
+            onToggleCollapse={toggleSidebar}
             onLogout={() => {
               setIsAuthModalOpen(true);
             }}
@@ -184,6 +203,8 @@ export function App() {
             {/* Top Header */}
             <TopHeader
               title={getTabTitle(activeTab)}
+              isSidebarCollapsed={isSidebarCollapsed}
+              onToggleSidebar={toggleSidebar}
               onNewPost={() => {
                 setComposerInitialCaption(undefined);
                 setActiveTab('composer');
