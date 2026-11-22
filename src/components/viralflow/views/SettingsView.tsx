@@ -14,7 +14,10 @@ import {
   Info, 
   X, 
   Lock, 
-  ArrowRight 
+  ArrowRight,
+  Eye,
+  EyeOff,
+  Copy
 } from 'lucide-react';
 
 const InstagramIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
@@ -416,6 +419,37 @@ export const SettingsView: React.FC = () => {
   // Active guide platform selection (defaults to Instagram)
   const [activeGuidePlatform, setActiveGuidePlatform] = useState<string>('Instagram');
 
+  // API Keys state (pre-configured with user's Meta key, and empty Gemini & OpenAI keys)
+  const [metaApiKey, setMetaApiKey] = useState(() => {
+    return localStorage.getItem('meta_api_key') || (import.meta.env.VITE_META_API_KEY as string) || 'LLM_2678853565872900_Ja86pLaiDzuWr3xFJywnjA98V6Q';
+  });
+  const [geminiApiKey, setGeminiApiKey] = useState(() => {
+    return localStorage.getItem('gemini_api_key') || (import.meta.env.VITE_GEMINI_API_KEY as string) || '';
+  });
+  const [openaiApiKey, setOpenaiApiKey] = useState(() => {
+    return localStorage.getItem('openai_api_key') || (import.meta.env.VITE_OPENAI_API_KEY as string) || '';
+  });
+  const [showMetaKey, setShowMetaKey] = useState(false);
+  const [showGeminiKey, setShowGeminiKey] = useState(false);
+  const [showOpenaiKey, setShowOpenaiKey] = useState(false);
+  const [apiKeysSaved, setApiKeysSaved] = useState(false);
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+  const copyKeyToClipboard = (text: string, id: string) => {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    setCopiedKey(id);
+    setTimeout(() => setCopiedKey(null), 2000);
+  };
+
+  const handleSaveApiKeys = () => {
+    localStorage.setItem('meta_api_key', metaApiKey.trim());
+    localStorage.setItem('gemini_api_key', geminiApiKey.trim());
+    localStorage.setItem('openai_api_key', openaiApiKey.trim());
+    setApiKeysSaved(true);
+    setTimeout(() => setApiKeysSaved(false), 2500);
+  };
+
   // Modal / Dialog for connecting or editing an account
   const [editingPlatform, setEditingPlatform] = useState<string | null>(null);
   const [inputHandle, setInputHandle] = useState('');
@@ -510,6 +544,183 @@ export const SettingsView: React.FC = () => {
         <span className="font-mono font-bold text-[11px] bg-white px-2.5 py-0.5 border border-[#0A0A0A] shadow-brutal-sm">
           OAuth 2.0 PKCE Active
         </span>
+      </div>
+
+      {/* 2.5. API Keys & Intelligence Credentials Management Card */}
+      <div className="card-brutal p-6 bg-white border-2 border-[#0A0A0A] shadow-brutal space-y-6 text-left">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b-2 border-[#0A0A0A]">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 bg-[#0A0A0A] text-white border border-[#0A0A0A] text-[10px] font-mono font-black uppercase flex items-center gap-1.5">
+                <Key className="w-3 h-3 text-[#FF5B37]" />
+                API KEYS & MODEL CREDENTIALS
+              </span>
+              <span className="px-2 py-0.5 bg-[#B8FF5C] text-[#0A0A0A] border border-[#0A0A0A] text-[10px] font-mono font-bold uppercase">
+                META KEY ACTIVE
+              </span>
+            </div>
+            <h3 className="font-display text-xl font-black text-[#0A0A0A] mt-1.5">
+              API Keys & Intelligence Credentials
+            </h3>
+            <p className="text-xs text-neutral-600 font-medium">
+              Production API key credentials for Meta Graph/Llama, Google Gemini, and OpenAI. Keys are saved securely and loaded by the AI Studio & Dispatch engines.
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            {apiKeysSaved && (
+              <span className="px-3 py-1.5 bg-[#B8FF5C] text-[#0A0A0A] border-2 border-[#0A0A0A] text-xs font-mono font-bold shadow-brutal-sm flex items-center gap-1.5 animate-in fade-in">
+                <Check className="w-3.5 h-3.5 text-black" /> Saved!
+              </span>
+            )}
+            <button
+              onClick={handleSaveApiKeys}
+              className="btn-brutal bg-[#FF5B37] text-white hover:bg-[#E04D2B] px-4 py-2 text-xs font-black uppercase flex items-center gap-2 border-2 border-[#0A0A0A] shadow-brutal-sm hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-pointer"
+            >
+              <Check className="w-4 h-4" /> Save API Credentials
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          {/* 1. Meta API Key (Configured with user's key) */}
+          <div className="p-4 bg-[#FFFDF8] border-2 border-[#0A0A0A] space-y-3 flex flex-col justify-between">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 font-display font-bold text-xs text-[#0A0A0A]">
+                  <span className="w-2 h-2 rounded-full bg-[#1877F2]"></span>
+                  <span>Meta API Key (Llama / Graph)</span>
+                </div>
+                <span className="px-1.5 py-0.5 bg-[#B8FF5C] border border-[#0A0A0A] text-[9px] font-mono font-black text-[#0A0A0A]">
+                  ACTIVE
+                </span>
+              </div>
+              <div className="relative flex items-center">
+                <input
+                  type={showMetaKey ? 'text' : 'password'}
+                  value={metaApiKey}
+                  onChange={(e) => setMetaApiKey(e.target.value)}
+                  placeholder="LLM_2678853565872900_Ja86pLaiDzuWr3xFJywnjA98V6Q"
+                  className="w-full bg-white border-2 border-[#0A0A0A] px-3 py-2 pr-16 text-xs font-mono font-bold text-[#0A0A0A] focus:outline-none"
+                />
+                <div className="absolute right-2 flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => setShowMetaKey(!showMetaKey)}
+                    className="p-1 text-neutral-600 hover:text-black hover:bg-neutral-100 cursor-pointer"
+                    title={showMetaKey ? 'Hide key' : 'Show key'}
+                  >
+                    {showMetaKey ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => copyKeyToClipboard(metaApiKey, 'meta')}
+                    className="p-1 text-neutral-600 hover:text-black hover:bg-neutral-100 cursor-pointer"
+                    title="Copy key"
+                  >
+                    {copiedKey === 'meta' ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <p className="text-[11px] text-neutral-600 font-medium">
+              Active Meta API key: <code className="font-mono font-bold text-[#0A0A0A] bg-neutral-100 px-1">LLM_267885...V6Q</code>. Powers Meta Llama and Graph publishing.
+            </p>
+          </div>
+
+          {/* 2. Google Gemini API Key (Empty by default) */}
+          <div className="p-4 bg-[#FFFDF8] border-2 border-[#0A0A0A] space-y-3 flex flex-col justify-between">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 font-display font-bold text-xs text-[#0A0A0A]">
+                  <span className="w-2 h-2 rounded-full bg-[#4285F4]"></span>
+                  <span>Google Gemini API Key</span>
+                </div>
+                <span className={`px-1.5 py-0.5 border border-[#0A0A0A] text-[9px] font-mono font-black ${
+                  geminiApiKey ? 'bg-[#B8FF5C] text-[#0A0A0A]' : 'bg-neutral-200 text-neutral-600'
+                }`}>
+                  {geminiApiKey ? 'CONFIGURED' : 'EMPTY / OPTIONAL'}
+                </span>
+              </div>
+              <div className="relative flex items-center">
+                <input
+                  type={showGeminiKey ? 'text' : 'password'}
+                  value={geminiApiKey}
+                  onChange={(e) => setGeminiApiKey(e.target.value)}
+                  placeholder="Empty (e.g. AIzaSy... Optional)"
+                  className="w-full bg-white border-2 border-[#0A0A0A] px-3 py-2 pr-16 text-xs font-mono font-bold text-[#0A0A0A] focus:outline-none"
+                />
+                <div className="absolute right-2 flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => setShowGeminiKey(!showGeminiKey)}
+                    className="p-1 text-neutral-600 hover:text-black hover:bg-neutral-100 cursor-pointer"
+                    title={showGeminiKey ? 'Hide key' : 'Show key'}
+                  >
+                    {showGeminiKey ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => copyKeyToClipboard(geminiApiKey, 'gemini')}
+                    className="p-1 text-neutral-600 hover:text-black hover:bg-neutral-100 cursor-pointer"
+                    title="Copy key"
+                  >
+                    {copiedKey === 'gemini' ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <p className="text-[11px] text-neutral-600 font-medium">
+              Empty by default. Add your Gemini key to unlock direct Google Gemini 2.5 Flash / Pro live cloud queries.
+            </p>
+          </div>
+
+          {/* 3. OpenAI API Key (Empty by default) */}
+          <div className="p-4 bg-[#FFFDF8] border-2 border-[#0A0A0A] space-y-3 flex flex-col justify-between">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 font-display font-bold text-xs text-[#0A0A0A]">
+                  <span className="w-2 h-2 rounded-full bg-[#10A37F]"></span>
+                  <span>OpenAI API Key</span>
+                </div>
+                <span className={`px-1.5 py-0.5 border border-[#0A0A0A] text-[9px] font-mono font-black ${
+                  openaiApiKey ? 'bg-[#B8FF5C] text-[#0A0A0A]' : 'bg-neutral-200 text-neutral-600'
+                }`}>
+                  {openaiApiKey ? 'CONFIGURED' : 'EMPTY / OPTIONAL'}
+                </span>
+              </div>
+              <div className="relative flex items-center">
+                <input
+                  type={showOpenaiKey ? 'text' : 'password'}
+                  value={openaiApiKey}
+                  onChange={(e) => setOpenaiApiKey(e.target.value)}
+                  placeholder="Empty (e.g. sk-proj-... Optional)"
+                  className="w-full bg-white border-2 border-[#0A0A0A] px-3 py-2 pr-16 text-xs font-mono font-bold text-[#0A0A0A] focus:outline-none"
+                />
+                <div className="absolute right-2 flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => setShowOpenaiKey(!showOpenaiKey)}
+                    className="p-1 text-neutral-600 hover:text-black hover:bg-neutral-100 cursor-pointer"
+                    title={showOpenaiKey ? 'Hide key' : 'Show key'}
+                  >
+                    {showOpenaiKey ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => copyKeyToClipboard(openaiApiKey, 'openai')}
+                    className="p-1 text-neutral-600 hover:text-black hover:bg-neutral-100 cursor-pointer"
+                    title="Copy key"
+                  >
+                    {copiedKey === 'openai' ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <p className="text-[11px] text-neutral-600 font-medium">
+              Empty by default. Add your OpenAI secret key for GPT-4o viral hooks, threads generation, and Whisper voice transcription.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* 3. Connected Accounts Grid (All 8 Platforms) */}

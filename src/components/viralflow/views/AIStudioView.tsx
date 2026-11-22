@@ -54,7 +54,7 @@ export const AIStudioView: React.FC<AIStudioViewProps> = ({
   const [videoSubType, setVideoSubType] = useState<VideoScriptSubType>('short');
 
   // Dropdown Inputs (Image 1: MODEL, PLATFORM, TONE)
-  const [model, setModel] = useState<'Gemini 3 Flash' | 'GPT-5.2' | 'Claude 3.7 Sonnet'>('Gemini 3 Flash');
+  const [model, setModel] = useState<string>('Meta Llama 3.3 (Meta API)');
   const [platform, setPlatform] = useState('tiktok');
   const [tone, setTone] = useState('bold');
 
@@ -68,8 +68,10 @@ export const AIStudioView: React.FC<AIStudioViewProps> = ({
   const [selectedOptionFilter, setSelectedOptionFilter] = useState<'all' | number>('all');
   const [results, setResults] = useState<Array<{ title: string; text: string; score: number }>>([]);
 
-  // Live API Key (optional from localStorage)
-  const [apiKey] = useState<string>(() => localStorage.getItem('gemini_api_key') || '');
+  // Live API Keys (from localStorage or environment variables)
+  const [apiKey] = useState<string>(() => localStorage.getItem('gemini_api_key') || (import.meta.env.VITE_GEMINI_API_KEY as string) || '');
+  const [metaApiKey] = useState<string>(() => localStorage.getItem('meta_api_key') || (import.meta.env.VITE_META_API_KEY as string) || 'LLM_2678853565872900_Ja86pLaiDzuWr3xFJywnjA98V6Q');
+  const [openaiApiKey] = useState<string>(() => localStorage.getItem('openai_api_key') || (import.meta.env.VITE_OPENAI_API_KEY as string) || '');
 
   // Generate on tab change or initial mount
   useEffect(() => {
@@ -273,6 +275,7 @@ export const AIStudioView: React.FC<AIStudioViewProps> = ({
               onChange={(e: any) => setModel(e.target.value)}
               className="w-full bg-white border-2 border-[#0A0A0A] px-3 py-2 text-xs font-bold text-[#0A0A0A] focus:outline-none"
             >
+              <option value="Meta Llama 3.3 (Meta API)">Meta Llama 3.3 (Meta API - Active)</option>
               <option value="Gemini 3 Flash">Gemini 3 Flash</option>
               <option value="GPT-5.2">GPT-5.2</option>
               <option value="Claude 3.7 Sonnet">Claude 3.7 Sonnet</option>
