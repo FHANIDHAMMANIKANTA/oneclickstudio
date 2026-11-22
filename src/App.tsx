@@ -203,8 +203,6 @@ export function App() {
             {/* Top Header */}
             <TopHeader
               title={getTabTitle(activeTab)}
-              isSidebarCollapsed={isSidebarCollapsed}
-              onToggleSidebar={toggleSidebar}
               onNewPost={() => {
                 setComposerInitialCaption(undefined);
                 setActiveTab('composer');

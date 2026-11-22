@@ -5,9 +5,7 @@ import {
   Radio, 
   Search, 
   Zap,
-  Globe,
-  PanelLeftClose,
-  PanelLeftOpen
+  Globe
 } from 'lucide-react';
 
 interface TopHeaderProps {
@@ -15,8 +13,6 @@ interface TopHeaderProps {
   onNewPost: () => void;
   onOpenAI?: () => void;
   creditsRemaining?: number;
-  isSidebarCollapsed?: boolean;
-  onToggleSidebar?: () => void;
 }
 
 export const TopHeader: React.FC<TopHeaderProps> = ({
@@ -24,32 +20,11 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   onNewPost,
   onOpenAI,
   creditsRemaining = 245,
-  isSidebarCollapsed = false,
-  onToggleSidebar,
 }) => {
   return (
     <header className="sticky top-0 z-20 w-full bg-[#FFFDF8] border-b-2 border-[#0A0A0A] px-6 py-4 flex items-center justify-between gap-4">
-      {/* Sidebar Toggle & Page Title */}
+      {/* Page Title */}
       <div className="flex items-center gap-3">
-        {onToggleSidebar && (
-          <button
-            onClick={onToggleSidebar}
-            className="p-2 bg-white hover:bg-neutral-100 border-2 border-[#0A0A0A] shadow-brutal-xs text-[#0A0A0A] transition-all cursor-pointer flex items-center gap-1.5 hover:translate-x-0.5 hover:translate-y-0.5"
-            title={isSidebarCollapsed ? "Open Sidebar" : "Close Sidebar"}
-          >
-            {isSidebarCollapsed ? (
-              <>
-                <PanelLeftOpen className="w-4 h-4 text-[#0A0A0A]" />
-                <span className="text-[11px] font-mono font-bold hidden sm:inline">Open</span>
-              </>
-            ) : (
-              <>
-                <PanelLeftClose className="w-4 h-4 text-[#0A0A0A]" />
-                <span className="text-[11px] font-mono font-bold hidden sm:inline">Close</span>
-              </>
-            )}
-          </button>
-        )}
         <h1 className="font-display text-2xl font-black tracking-tight text-[#0A0A0A] uppercase">
           {title}
         </h1>
