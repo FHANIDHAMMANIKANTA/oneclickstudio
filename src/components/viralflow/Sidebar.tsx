@@ -103,7 +103,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               className="w-10 h-10 flex items-center justify-center cursor-pointer hover:scale-105 transition-all p-1"
               title="Hivepostly (Click for Landing Page)"
             >
-              <img src="/favicon.svg" alt="Hivepostly" className="w-8 h-8" />
+              <img src="./favicon.svg" alt="Hivepostly" className="w-8 h-8" />
             </div>
           </div>
         ) : (

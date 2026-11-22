@@ -24,8 +24,9 @@ export const VideoEditorLauncher: React.FC<VideoEditorLauncherProps> = () => {
       // safe fallback
     }
 
-    // Open standalone editor in a separate browser tab
-    const editorWin = window.open('/editor.html', '_blank');
+    // Open standalone editor in a separate browser tab (relative to current path so it works both on localhost and subpaths)
+    const editorUrl = new URL('editor.html', window.location.href).href;
+    const editorWin = window.open(editorUrl, '_blank');
     if (editorWin) {
       editorWin.focus();
     }

@@ -263,7 +263,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
             <div className="card-brutal p-3 bg-white">
               <div className="relative aspect-[4/3] overflow-hidden border-2 border-[#0A0A0A]">
                 <img
-                  src="/images/hivepostly-creator.jpg"
+                  src="./images/hivepostly-creator.jpg"
                   alt="Creator using Hivepostly Studio"
                   className="w-full h-full object-cover object-top"
                 />
