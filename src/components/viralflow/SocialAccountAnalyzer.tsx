@@ -26,7 +26,9 @@ import {
   Grid,
   Video,
   BookmarkCheck,
-  Award
+  Award,
+  Edit2,
+  X
 } from 'lucide-react';
 
 export type AnalyzerPlatform = 
@@ -219,6 +221,54 @@ const POPULAR_ACCOUNTS: Record<string, Partial<Record<AnalyzerPlatform, {
   engagement: string;
   growth: string;
 }>>> = {
+  manikanta_fanidham: {
+    instagram: {
+      name: 'Manikanta Fanidham',
+      stat1: '1.2K',
+      stat2: '340',
+      stat3: '14',
+      bio: 'Full-Stack Developer & Creator. Building AI tools & sharing daily tech workflows. ✨',
+      category: 'Digital Creator & Developer',
+      verified: true,
+      engagement: '5.8%',
+      growth: '+14% this month',
+    },
+    youtube: {
+      name: 'Manikanta Fanidham',
+      stat1: '850',
+      stat2: '12.4K',
+      stat3: '8',
+      bio: 'Tech breakdowns, AI tutorials & coding workflows.',
+      category: 'Developer & Tech',
+      verified: true,
+      engagement: '6.2%',
+      growth: '+22% this month',
+    },
+    twitter: {
+      name: 'Manikanta Fanidham',
+      stat1: '640',
+      stat2: '210',
+      stat3: '95',
+      bio: 'Building oneclick studio & sharing developer tools.',
+      category: 'Tech Founder',
+      verified: true,
+      engagement: '4.8%',
+      growth: '+12% this month',
+    },
+  },
+  fhanidhammanikanta: {
+    instagram: {
+      name: 'Manikanta Fanidham',
+      stat1: '1.2K',
+      stat2: '340',
+      stat3: '14',
+      bio: 'Full-Stack Developer & Creator. Building AI tools & sharing daily tech workflows. ✨',
+      category: 'Digital Creator & Developer',
+      verified: true,
+      engagement: '5.8%',
+      growth: '+14% this month',
+    },
+  },
   cristiano: {
     instagram: {
       name: 'Cristiano Ronaldo',
@@ -402,7 +452,26 @@ const POPULAR_ACCOUNTS: Record<string, Partial<Record<AnalyzerPlatform, {
 function getAccountData(platform: AnalyzerPlatform, handle: string) {
   const clean = handle.toLowerCase().replace(/^@/, '').replace(/^in\//, '').trim();
 
-  // 1. Check if user configured this account in Settings (localStorage)
+  // 1. Direct custom user override in localStorage
+  try {
+    const direct = localStorage.getItem(`hivepostly_profile_${clean}_${platform}`) || localStorage.getItem(`hivepostly_profile_${clean}`);
+    if (direct) {
+      const parsed = JSON.parse(direct);
+      return {
+        name: parsed.name || clean.charAt(0).toUpperCase() + clean.slice(1),
+        stat1: parsed.stat1 || parsed.followers || '1.2K',
+        stat2: parsed.stat2 || parsed.following || '340',
+        stat3: parsed.stat3 || parsed.posts || '14',
+        bio: parsed.bio || `Official ${platform} account of @${clean}.`,
+        category: parsed.category || 'Creator Account',
+        verified: true,
+        engagement: parsed.engagement || '5.8%',
+        growth: '+14% this month',
+      };
+    }
+  } catch (e) {}
+
+  // 2. Check if user configured this account in Settings (localStorage)
   try {
     const saved = localStorage.getItem('hivepostly_social_accounts_v2');
     if (saved) {
@@ -433,13 +502,13 @@ function getAccountData(platform: AnalyzerPlatform, handle: string) {
     // fallback to preset
   }
 
-  // Check known presets
+  // 3. Check known presets
   const preset = POPULAR_ACCOUNTS[clean]?.[platform];
   if (preset) {
     return preset;
   }
 
-  // Deterministic hash calculation
+  // 4. Deterministic hash calculation for normal creator accounts (NOT 43 Million!)
   let hash = 0;
   for (let i = 0; i < clean.length; i++) {
     hash = (hash << 5) - hash + clean.charCodeAt(i);
@@ -447,11 +516,11 @@ function getAccountData(platform: AnalyzerPlatform, handle: string) {
   }
   const absHash = Math.abs(hash);
 
-  const followerBase = (absHash % 890) + 12; // 12 to 900
-  const stat1 = followerBase > 50 ? `${(followerBase / 10).toFixed(1)}K` : `${(followerBase * 1.4).toFixed(1)}M`;
-  const stat2 = `${(absHash % 850) + 45}`;
-  const stat3 = `${(absHash % 420) + 18}`;
-  const eng = `${((absHash % 60) / 10 + 2.5).toFixed(1)}%`;
+  const followerBase = (absHash % 450) + 45; // 45 to 495
+  const stat1 = followerBase > 80 ? `${(followerBase * 10).toLocaleString()}` : `${(followerBase / 10).toFixed(1)}K`;
+  const stat2 = `${(absHash % 350) + 85}`;
+  const stat3 = `${(absHash % 35) + 6}`;
+  const eng = `${((absHash % 40) / 10 + 3.4).toFixed(1)}%`;
 
   return {
     name: clean.charAt(0).toUpperCase() + clean.slice(1),
@@ -462,7 +531,7 @@ function getAccountData(platform: AnalyzerPlatform, handle: string) {
     category: 'Digital Creator & Media',
     verified: absHash % 2 === 0,
     engagement: eng,
-    growth: `+${((absHash % 25) + 3)}% this month`,
+    growth: `+${((absHash % 20) + 4)}% this month`,
   };
 }
 
@@ -483,7 +552,7 @@ export const SocialAccountAnalyzer: React.FC<SocialAccountAnalyzerProps> = ({
     onPlatformChange?.(p);
   };
   const [userId, setUserId] = useState<string>(() => {
-    return localStorage.getItem('hivepostly_custom_username') || localStorage.getItem('viralflow_custom_username') || 'mrbeast';
+    return localStorage.getItem('hivepostly_custom_username') || localStorage.getItem('viralflow_custom_username') || 'manikanta_fanidham';
   });
   const [urlInput, setUrlInput] = useState<string>('');
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
@@ -517,6 +586,70 @@ export const SocialAccountAnalyzer: React.FC<SocialAccountAnalyzerProps> = ({
   // Account Data
   const accountData = getAccountData(platform, cleanUser);
   const avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${cleanUser}_${platform}`;
+
+  // Quick stats editor state
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [customFollowers, setCustomFollowers] = useState('');
+  const [customPosts, setCustomPosts] = useState('');
+  const [customFollowing, setCustomFollowing] = useState('');
+  const [customBio, setCustomBio] = useState('');
+  const [statsSavedNotification, setStatsSavedNotification] = useState(false);
+
+  const handleOpenEditStats = () => {
+    setCustomFollowers(accountData.stat1);
+    setCustomPosts(accountData.stat3);
+    setCustomFollowing(accountData.stat2);
+    setCustomBio(accountData.bio);
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveCustomStats = () => {
+    const updated = {
+      name: cleanUser.charAt(0).toUpperCase() + cleanUser.slice(1),
+      stat1: customFollowers.trim() || '1.2K',
+      followers: customFollowers.trim() || '1.2K',
+      stat2: customFollowing.trim() || '340',
+      following: customFollowing.trim() || '340',
+      stat3: customPosts.trim() || '14',
+      posts: customPosts.trim() || '14',
+      bio: customBio.trim() || `Official ${platform} account of @${cleanUser}.`,
+      category: 'Digital Creator & Developer',
+      verified: true,
+      engagement: accountData.engagement || '5.8%',
+      growth: '+14% this month',
+    };
+
+    localStorage.setItem(`hivepostly_profile_${cleanUser}_${platform}`, JSON.stringify(updated));
+    localStorage.setItem(`hivepostly_profile_${cleanUser}`, JSON.stringify(updated));
+
+    try {
+      const saved = localStorage.getItem('hivepostly_social_accounts_v2');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const next = parsed.map((a: any) => {
+          if (a.platform.toLowerCase().includes(platform) || platform.includes(a.platform.toLowerCase())) {
+            return {
+              ...a,
+              handle: `@${cleanUser}`,
+              followers: updated.followers,
+              following: updated.following,
+              posts: updated.posts,
+              bio: updated.bio,
+            };
+          }
+          return a;
+        });
+        localStorage.setItem('hivepostly_social_accounts_v2', JSON.stringify(next));
+      }
+    } catch (e) {}
+
+    setIsEditModalOpen(false);
+    setStatsSavedNotification(true);
+    setTimeout(() => setStatsSavedNotification(false), 3000);
+
+    window.dispatchEvent(new CustomEvent('social_account_updated', { detail: { platform, handle: cleanUser } }));
+    window.dispatchEvent(new Event('storage'));
+  };
 
   // Trigger rapid live audit simulation (under 1 second)
   const handleAnalyze = () => {
@@ -710,6 +843,42 @@ export const SocialAccountAnalyzer: React.FC<SocialAccountAnalyzerProps> = ({
                   )}
                 </button>
               </div>
+
+              {/* Quick Profile Sync & Real Stats Editor Bar */}
+              <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 bg-[#FFFDF8] border-2 border-[#0A0A0A] text-xs font-mono shadow-xs">
+                <div className="flex items-center gap-1.5 text-neutral-700">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                  <span className="font-bold text-[#0A0A0A]">Live Account: @{cleanUser}</span>
+                  <span className="text-neutral-500 hidden sm:inline">
+                    ({accountData.stat1} Followers · {accountData.stat3} Posts)
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleOpenEditStats}
+                    className="px-2.5 py-1 bg-[#B8FF5C] hover:bg-[#a3f343] text-[#0A0A0A] font-bold border border-[#0A0A0A] shadow-xs flex items-center gap-1 cursor-pointer text-[11px] transition-transform active:scale-95"
+                    title="Edit real follower count, post count, and bio directly"
+                  >
+                    <Edit2 className="w-3 h-3 text-[#0A0A0A]" />
+                    <span>Set Real Followers & Posts</span>
+                  </button>
+                  <button
+                    onClick={handleOpenDirect}
+                    className="px-2.5 py-1 bg-white hover:bg-neutral-100 text-[#0A0A0A] font-bold border border-[#0A0A0A] shadow-xs flex items-center gap-1 cursor-pointer text-[11px]"
+                    title="Open your real live account in a new tab"
+                  >
+                    <span>Open @{cleanUser} ↗</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Saved confirmation notification */}
+              {statsSavedNotification && (
+                <div className="p-2 bg-emerald-50 border-2 border-emerald-600 text-emerald-800 text-xs font-mono font-bold flex items-center gap-1.5 animate-in fade-in slide-in-from-top-1">
+                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Real followers ({accountData.stat1}) and posts ({accountData.stat3}) synced and applied successfully!</span>
+                </div>
+              )}
             </div>
 
             {/* 2. URL Bar (as drawn in user sketch: [URL]) */}
@@ -785,6 +954,7 @@ export const SocialAccountAnalyzer: React.FC<SocialAccountAnalyzerProps> = ({
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {[
+                  { name: 'My Profile (Manikanta)', handle: 'manikanta_fanidham', plat: 'instagram' as AnalyzerPlatform },
                   { name: 'Cristiano', handle: 'cristiano', plat: 'instagram' as AnalyzerPlatform },
                   { name: 'MrBeast', handle: 'mrbeast', plat: 'youtube' as AnalyzerPlatform },
                   { name: 'Zuck', handle: 'zuck', plat: 'facebook' as AnalyzerPlatform },
@@ -911,19 +1081,27 @@ export const SocialAccountAnalyzer: React.FC<SocialAccountAnalyzerProps> = ({
                       </div>
                     </div>
 
-                    {/* 3 Stats Numbers inside Profile */}
-                    <div className="flex-1 grid grid-cols-3 gap-1 text-center font-mono">
+                    {/* 3 Stats Numbers inside Profile (Click to edit real metrics) */}
+                    <div 
+                      onClick={handleOpenEditStats}
+                      title="Click to edit real followers, posts, and following"
+                      className="flex-1 grid grid-cols-3 gap-1 text-center font-mono cursor-pointer hover:bg-neutral-50 rounded p-1 transition-all border border-dashed border-transparent hover:border-neutral-300 relative group"
+                    >
                       <div className="p-1">
-                        <div className="font-black text-sm text-[#0A0A0A]">{accountData.stat3}</div>
+                        <div className="font-black text-sm text-[#0A0A0A] group-hover:text-[#FF5B37] transition-colors">{accountData.stat3}</div>
                         <div className="text-[9px] text-neutral-500 uppercase">{meta.stat3Label.split(' ')[0]}</div>
                       </div>
                       <div className="p-1">
-                        <div className="font-black text-sm text-[#0A0A0A]">{accountData.stat1}</div>
+                        <div className="font-black text-sm text-[#0A0A0A] group-hover:text-[#FF5B37] transition-colors">{accountData.stat1}</div>
                         <div className="text-[9px] text-neutral-500 uppercase">{meta.stat1Label.split(' ')[0]}</div>
                       </div>
                       <div className="p-1">
-                        <div className="font-black text-sm text-[#0A0A0A]">{accountData.stat2}</div>
+                        <div className="font-black text-sm text-[#0A0A0A] group-hover:text-[#FF5B37] transition-colors">{accountData.stat2}</div>
                         <div className="text-[9px] text-neutral-500 uppercase">{meta.stat2Label.split(' ')[0]}</div>
+                      </div>
+                      <div className="col-span-3 text-[8px] text-neutral-400 group-hover:text-blue-600 flex items-center justify-center gap-1 font-sans">
+                        <Edit2 className="w-2.5 h-2.5" />
+                        <span>Click to set real followers</span>
                       </div>
                     </div>
                   </div>
@@ -1085,6 +1263,128 @@ export const SocialAccountAnalyzer: React.FC<SocialAccountAnalyzerProps> = ({
           </div>
         </div>
       </div>
+
+      {/* ============================================================= */}
+      {/* MODAL: Set Real Followers & Posts directly from Dashboard     */}
+      {/* ============================================================= */}
+      {isEditModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-in fade-in duration-200">
+          <div className="bg-white border-3 border-[#0A0A0A] shadow-brutal-lg max-w-md w-full p-6 space-y-5 text-left relative">
+            <div className="flex items-center justify-between pb-3 border-b-2 border-[#0A0A0A]">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-[#B8FF5C] border border-[#0A0A0A] flex items-center justify-center font-bold">
+                  <Edit2 className="w-4 h-4 text-[#0A0A0A]" />
+                </div>
+                <div>
+                  <h3 className="font-display font-black text-lg text-[#0A0A0A]">
+                    Set Real Followers & Posts
+                  </h3>
+                  <p className="text-[11px] font-mono text-neutral-500">
+                    Syncing @{cleanUser} on {meta.name}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsEditModalOpen(false)}
+                className="w-8 h-8 border-2 border-[#0A0A0A] bg-white hover:bg-neutral-100 flex items-center justify-center cursor-pointer shadow-xs"
+              >
+                <X className="w-4 h-4 text-[#0A0A0A]" />
+              </button>
+            </div>
+
+            <div className="p-3 bg-[#FFFDF8] border-2 border-[#0A0A0A] text-xs space-y-1 font-mono">
+              <div className="font-bold text-[#0A0A0A] flex items-center gap-1.5">
+                <PlatformIcon platform={platform} className="w-3.5 h-3.5 text-[#FF5B37]" />
+                <span>Active Profile: @{cleanUser}</span>
+              </div>
+              <p className="text-[11px] text-neutral-600">
+                Enter your exact numbers as shown on your live {meta.name} account to sync them across your dashboard, audience audit, and smartphone preview.
+              </p>
+              <div className="pt-1">
+                <a
+                  href={directUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] font-bold text-blue-600 hover:underline flex items-center gap-1 inline-flex"
+                >
+                  <span>Open @{cleanUser} on {meta.name} to check your numbers ↗</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="space-y-3 font-mono text-xs">
+              <div>
+                <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1">
+                  Followers Count:
+                </label>
+                <input
+                  type="text"
+                  value={customFollowers}
+                  onChange={(e) => setCustomFollowers(e.target.value)}
+                  placeholder="e.g. 1,240 or 1.2K or 450"
+                  className="w-full p-2.5 bg-white border-2 border-[#0A0A0A] font-bold text-sm text-[#0A0A0A] focus:outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1">
+                    Posts Count:
+                  </label>
+                  <input
+                    type="text"
+                    value={customPosts}
+                    onChange={(e) => setCustomPosts(e.target.value)}
+                    placeholder="e.g. 14"
+                    className="w-full p-2.5 bg-white border-2 border-[#0A0A0A] font-bold text-sm text-[#0A0A0A] focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1">
+                    Following Count:
+                  </label>
+                  <input
+                    type="text"
+                    value={customFollowing}
+                    onChange={(e) => setCustomFollowing(e.target.value)}
+                    placeholder="e.g. 340"
+                    className="w-full p-2.5 bg-white border-2 border-[#0A0A0A] font-bold text-sm text-[#0A0A0A] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1">
+                  Profile Bio / Description:
+                </label>
+                <textarea
+                  rows={2}
+                  value={customBio}
+                  onChange={(e) => setCustomBio(e.target.value)}
+                  placeholder="Enter your account bio..."
+                  className="w-full p-2.5 bg-white border-2 border-[#0A0A0A] text-xs text-[#0A0A0A] focus:outline-none resize-none font-sans"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-neutral-200">
+              <button
+                onClick={() => setIsEditModalOpen(false)}
+                className="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-[#0A0A0A] font-mono text-xs font-bold border border-neutral-400 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveCustomStats}
+                className="px-5 py-2 bg-[#FF5B37] hover:bg-[#ff4921] text-white font-display font-black text-xs border-2 border-[#0A0A0A] shadow-brutal-sm cursor-pointer flex items-center gap-1.5"
+              >
+                <Check className="w-3.5 h-3.5" />
+                <span>Save & Apply Real Stats</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
