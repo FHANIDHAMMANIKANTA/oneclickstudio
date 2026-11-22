@@ -343,10 +343,12 @@ async function dispatchToHivepostlyComposer(blob, mediaType, fileName, customCap
     timestamp: Date.now()
   };
 
+  const mainComposerUrl = new URL('./?tab=composer&from=editor', window.location.href).href;
+
   if (window.opener && !window.opener.closed) {
     try {
       window.opener.postMessage(payload, '*');
-      window.opener.location.href = '/?tab=composer&from=editor';
+      window.opener.location.href = mainComposerUrl;
       window.opener.focus();
     } catch (e) {
       console.warn('opener error:', e);
@@ -367,7 +369,7 @@ async function dispatchToHivepostlyComposer(blob, mediaType, fileName, customCap
 
   // 3. Automatically navigate to the main website composer
   setTimeout(() => {
-    window.location.href = '/?tab=composer&from=editor';
+    window.location.href = mainComposerUrl;
   }, 450);
 }
 
