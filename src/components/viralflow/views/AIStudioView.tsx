@@ -35,8 +35,8 @@ interface AIStudioViewProps {
   creditsRemaining: number;
 }
 
-// 5 Core Output Modes (Renamed 'Viral Ideas' to 'Hook Ideas' as requested)
-export type MainTabType = 'Caption' | 'Hashtags' | 'SEO Keywords' | 'Hook Ideas' | 'Video Script';
+// 6 Core Output Modes (Includes 'Ask AI Anything' for any user question or prompt)
+export type MainTabType = 'Ask AI Anything' | 'Caption' | 'Hashtags' | 'SEO Keywords' | 'Hook Ideas' | 'Video Script';
 
 // Video Script Formats
 export type VideoScriptSubType = 'short' | 'full' | 'podcast' | 'story' | 'ugc' | 'titles' | 'desc';
@@ -47,8 +47,8 @@ export const AIStudioView: React.FC<AIStudioViewProps> = ({
   onUseCredit,
   creditsRemaining,
 }) => {
-  // Main Tab selection (Image 1 layout: Caption, Hashtags, SEO Keywords, Hook Ideas, Video Script)
-  const [activeTab, setActiveTab] = useState<MainTabType>('SEO Keywords');
+  // Main Tab selection (Defaults to Ask AI Anything for immediate answers)
+  const [activeTab, setActiveTab] = useState<MainTabType>('Ask AI Anything');
   
   // Video Script Sub-type (Short 60s, Full 8-10m, Podcast, Story, UGC, Titles, Description)
   const [videoSubType, setVideoSubType] = useState<VideoScriptSubType>('short');
@@ -58,8 +58,8 @@ export const AIStudioView: React.FC<AIStudioViewProps> = ({
   const [platform, setPlatform] = useState('tiktok');
   const [tone, setTone] = useState('bold');
 
-  // Textarea Input (Image 1: WHAT'S THE CONTENT ABOUT?)
-  const [topic, setTopic] = useState('Launching a productivity app that cuts 10 hours of video editing every week');
+  // Textarea Input (Any question or content topic)
+  const [topic, setTopic] = useState('How to get 10,000 followers on Instagram in 2026?');
 
   // Generation & Results state
   const [isGenerating, setIsGenerating] = useState(false);
@@ -81,6 +81,7 @@ export const AIStudioView: React.FC<AIStudioViewProps> = ({
   // Helper to map activeTab + subType to toolId
   const getToolId = (tab: MainTabType, subType: VideoScriptSubType): string => {
     switch (tab) {
+      case 'Ask AI Anything': return 'ask_ai';
       case 'Caption': return 'caption';
       case 'Hashtags': return 'hashtags';
       case 'SEO Keywords': return 'seo_keywords';
@@ -90,7 +91,7 @@ export const AIStudioView: React.FC<AIStudioViewProps> = ({
         if (subType === 'titles') return 'youtube_titles';
         if (subType === 'desc') return 'youtube_desc';
         return 'video_script';
-      default: return 'seo_keywords';
+      default: return 'ask_ai';
     }
   };
 
@@ -182,6 +183,8 @@ export const AIStudioView: React.FC<AIStudioViewProps> = ({
       return 'bg-white text-[#0A0A0A] hover:bg-neutral-100 border-[#0A0A0A]';
     }
     switch (tab) {
+      case 'Ask AI Anything':
+        return 'bg-[#B8FF5C] text-[#0A0A0A] border-[#0A0A0A] shadow-brutal-sm font-black';
       case 'SEO Keywords':
         return 'bg-[#2F80ED] text-white border-[#0A0A0A] shadow-brutal-sm';
       case 'Caption':
@@ -211,9 +214,9 @@ export const AIStudioView: React.FC<AIStudioViewProps> = ({
 
       {/* 2. Main Generator Box (Exact Match to User Image 1) */}
       <div className="bg-white border-2 border-[#0A0A0A] p-6 space-y-5 shadow-brutal text-left">
-        {/* Row of Tabs: [ Caption ] [ Hashtags ] [ SEO Keywords ] [ Hook Ideas ] [ Video Script ] */}
+        {/* Row of Tabs: [ Ask AI Anything ] [ Caption ] [ Hashtags ] [ SEO Keywords ] [ Hook Ideas ] [ Video Script ] */}
         <div className="flex flex-wrap gap-2.5">
-          {(['Caption', 'Hashtags', 'SEO Keywords', 'Hook Ideas', 'Video Script'] as MainTabType[]).map((tab) => (
+          {(['Ask AI Anything', 'Caption', 'Hashtags', 'SEO Keywords', 'Hook Ideas', 'Video Script'] as MainTabType[]).map((tab) => (
             <button
               key={tab}
               onClick={() => {
@@ -222,7 +225,7 @@ export const AIStudioView: React.FC<AIStudioViewProps> = ({
               }}
               className={`px-4 py-2 font-display text-xs font-bold border-2 transition-all cursor-pointer ${getTabActiveClass(tab)}`}
             >
-              {tab}
+              {tab === 'Ask AI Anything' ? '💬 Ask AI Anything' : tab}
             </button>
           ))}
         </div>
@@ -327,18 +330,51 @@ export const AIStudioView: React.FC<AIStudioViewProps> = ({
           </div>
         </div>
 
-        {/* Textarea: WHAT'S THE CONTENT ABOUT? (Exact Match to User Image 1) */}
-        <div className="space-y-1.5 text-left">
-          <label className="text-[11px] font-bold text-neutral-700 uppercase font-mono block">
-            WHAT'S THE CONTENT ABOUT?
-          </label>
+        {/* Textarea: WHAT'S THE CONTENT ABOUT? / ASK ANY QUESTION */}
+        <div className="space-y-2 text-left">
+          <div className="flex items-center justify-between">
+            <label className="text-[11px] font-bold text-neutral-700 uppercase font-mono block">
+              {activeTab === 'Ask AI Anything' ? 'ASK ANY QUESTION, PROMPT OR STRATEGY:' : "WHAT'S THE CONTENT ABOUT?"}
+            </label>
+            <span className="text-[10px] font-mono text-neutral-500">
+              {activeTab === 'Ask AI Anything' ? 'Answers any question immediately' : 'Keyword & topic input'}
+            </span>
+          </div>
           <textarea
             rows={3}
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
-            placeholder="e.g. Launching a productivity app that cuts 10 hours of video editing every week..."
+            placeholder={
+              activeTab === 'Ask AI Anything'
+                ? 'Type ANY question, prompt or request (e.g. "How to get 10,000 followers on Instagram?", "Why are my views stuck at 200?", "Write a viral 60s script about AI tools")...'
+                : 'e.g. Launching a productivity app that cuts 10 hours of video editing every week...'
+            }
             className="w-full bg-white border-2 border-[#0A0A0A] p-3 text-xs font-medium text-[#0A0A0A] focus:outline-none leading-relaxed placeholder-neutral-400"
           />
+
+          {/* Quick Clickable Question Pills */}
+          <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+            <span className="text-[10px] font-mono font-bold uppercase text-neutral-500 mr-1">Quick Prompts:</span>
+            {[
+              '⚡ How to get 10,000 followers on Instagram in 90 days?',
+              '🔥 Why are my Reels stuck at 200 views & how to fix it?',
+              '🎬 Write a 60s viral video script with 0-3s hook',
+              '💰 How to pitch brands for $1,000+ sponsorships?',
+              '🔑 How does Meta Graph API auto-publishing work?',
+            ].map((qPrompt) => (
+              <button
+                key={qPrompt}
+                type="button"
+                onClick={() => {
+                  setTopic(qPrompt);
+                  executeGeneration(activeTab, videoSubType, qPrompt, platform, tone);
+                }}
+                className="px-2 py-0.5 bg-[#FFFDF8] hover:bg-neutral-100 border border-[#0A0A0A] text-[10px] font-mono font-medium text-neutral-700 hover:text-black cursor-pointer transition-all shadow-brutal-xs"
+              >
+                {qPrompt}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Action Button: [ ⚡ Generating... ] / [ ✨ Generate ] (Exact Match to User Image 1) */}

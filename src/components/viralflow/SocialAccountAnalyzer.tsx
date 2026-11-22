@@ -398,10 +398,41 @@ const POPULAR_ACCOUNTS: Record<string, Partial<Record<AnalyzerPlatform, {
   },
 };
 
-// Deterministic generator for ANY custom handle
+// Deterministic generator for ANY custom handle with dynamic localStorage override
 function getAccountData(platform: AnalyzerPlatform, handle: string) {
-  const clean = handle.toLowerCase().replace(/^@/, '').trim();
-  
+  const clean = handle.toLowerCase().replace(/^@/, '').replace(/^in\//, '').trim();
+
+  // 1. Check if user configured this account in Settings (localStorage)
+  try {
+    const saved = localStorage.getItem('hivepostly_social_accounts_v2');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      const match = parsed.find((a: any) => 
+        a.platform.toLowerCase().includes(platform) || 
+        platform.includes(a.platform.toLowerCase().replace(/\s+/g, '')) ||
+        (platform === 'twitter' && (a.platform.includes('Twitter') || a.platform.includes('X')))
+      );
+      if (match && match.handle) {
+        const matchClean = match.handle.replace(/^@/, '').replace(/^in\//, '').trim().toLowerCase();
+        if (matchClean === clean || clean === 'creator' || clean === 'hivepostly_creator') {
+          return {
+            name: matchClean.charAt(0).toUpperCase() + matchClean.slice(1),
+            stat1: match.followers || '48.5K',
+            stat2: match.following || '320',
+            stat3: match.posts || '142',
+            bio: match.bio || `Official ${platform} account of @${matchClean}. Follow for daily updates!`,
+            category: match.accountType || 'Creator Account',
+            verified: true,
+            engagement: match.engagement || '5.4%',
+            growth: '+14.2% this month',
+          };
+        }
+      }
+    }
+  } catch (e) {
+    // fallback to preset
+  }
+
   // Check known presets
   const preset = POPULAR_ACCOUNTS[clean]?.[platform];
   if (preset) {
@@ -468,6 +499,20 @@ export const SocialAccountAnalyzer: React.FC<SocialAccountAnalyzerProps> = ({
   useEffect(() => {
     setUrlInput(directUrl);
   }, [platform, cleanUser]);
+
+  // Sync when user changes account in Settings
+  useEffect(() => {
+    const handleUpdate = () => {
+      const savedUser = localStorage.getItem('hivepostly_custom_username') || localStorage.getItem('viralflow_custom_username');
+      if (savedUser) setUserId(savedUser);
+    };
+    window.addEventListener('social_account_updated', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+    return () => {
+      window.removeEventListener('social_account_updated', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
+  }, []);
 
   // Account Data
   const accountData = getAccountData(platform, cleanUser);
