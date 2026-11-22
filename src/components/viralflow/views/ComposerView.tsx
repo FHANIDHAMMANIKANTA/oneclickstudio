@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { extractVideoMetadata } from '../../../utils/mediaUtils';
 import { getPendingPost } from '../../../utils/composerStorage';
+import { getEditorUrl } from '../../../utils/editorUrl';
 
 export interface ComposerMedia {
   url: string;
@@ -664,7 +665,7 @@ export const ComposerView: React.FC<ComposerViewProps> = ({
                 </span>
               </div>
               <a
-                href="./editor.html"
+                href={getEditorUrl()}
                 target="_blank"
                 rel="noreferrer"
                 className="text-[11px] font-mono font-bold text-[#FF5B37] hover:underline flex items-center gap-1 shrink-0"

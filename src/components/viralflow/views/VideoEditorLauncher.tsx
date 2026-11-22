@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { ExternalLink, Play, Film, Sparkles } from 'lucide-react';
+import { getEditorUrl } from '../../../utils/editorUrl';
 
 interface VideoEditorLauncherProps {
   onOpenComposer?: () => void;
@@ -24,8 +25,8 @@ export const VideoEditorLauncher: React.FC<VideoEditorLauncherProps> = () => {
       // safe fallback
     }
 
-    // Open standalone editor in a separate browser tab (relative to current path so it works both on localhost and subpaths)
-    const editorUrl = new URL('editor.html', window.location.href).href;
+    // Open standalone editor in a separate browser tab (bulletproof across localhost and GitHub Pages subpaths)
+    const editorUrl = getEditorUrl();
     const editorWin = window.open(editorUrl, '_blank');
     if (editorWin) {
       editorWin.focus();
