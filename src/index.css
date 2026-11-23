@@ -2,104 +2,115 @@
 
 @layer base {
   :root {
-    --color-flame: #FF5B37;
-    --color-ink: #0A0A0A;
-    --color-cream: #FFFDF8;
-    --color-lime: #B8FF5C;
-    --color-sky: #4D9FFF;
+    --color-primary: #2563EB;
+    --color-primary-hover: #1D4ED8;
+    --color-indigo: #6366F1;
+    --color-flame: #2563EB;
+    --color-ink: #0F172A;
+    --color-cream: #F8FAFC;
+    --color-lime: #10B981;
+    --color-sky: #0284C7;
     --color-card: #FFFFFF;
+    --color-border: #E2E8F0;
+    --color-border-subtle: #F1F5F9;
   }
 }
 
 body {
   margin: 0;
-  font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  background-color: #FFFDF8;
-  color: #0A0A0A;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #F8FAFC;
+  color: #0F172A;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
 .font-display {
-  font-family: 'Cabinet Grotesk', 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
 .font-body {
-  font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
 }
 
-/* Neo-Brutalist Hard Shadows (No blur!) */
+/* Modern Clean SaaS Soft Shadows (Stripe / Canva style) */
 .shadow-brutal {
-  box-shadow: 4px 4px 0px #0A0A0A;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05);
 }
 
 .shadow-brutal-sm {
-  box-shadow: 2px 2px 0px #0A0A0A;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+}
+
+.shadow-brutal-xs {
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.03);
 }
 
 .shadow-brutal-lg {
-  box-shadow: 6px 6px 0px #0A0A0A;
+  box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.03);
 }
 
 .shadow-brutal-flame {
-  box-shadow: 4px 4px 0px #FF5B37;
+  box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.22);
 }
 
 .shadow-brutal-lime {
-  box-shadow: 4px 4px 0px #B8FF5C;
+  box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.22);
 }
 
-/* Neo-Brutalist Buttons */
+/* Modern Clean SaaS Buttons */
 .btn-brutal {
-  border: 2px solid #0A0A0A;
-  box-shadow: 4px 4px 0px #0A0A0A;
-  transition: all 0.12s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 0px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 8px;
 }
 
 .btn-brutal:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0px #0A0A0A;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
+  border-color: #CBD5E1;
 }
 
 .btn-brutal:active {
-  transform: translate(4px, 4px);
-  box-shadow: 0px 0px 0px #0A0A0A;
+  transform: translateY(0px);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 
-/* Neo-Brutalist Cards */
+/* Modern Clean SaaS Cards */
 .card-brutal {
   background-color: #FFFFFF;
-  border: 2px solid #0A0A0A;
-  box-shadow: 4px 4px 0px #0A0A0A;
-  border-radius: 0px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+  border-radius: 12px;
 }
 
 .card-brutal-hover {
-  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card-brutal-hover:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px #0A0A0A;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -4px rgb(0 0 0 / 0.08), 0 4px 8px -2px rgb(0 0 0 / 0.03);
+  border-color: #CBD5E1;
 }
 
-/* Custom Scrollbars in Neo-Brutalist Style */
+/* Sleek Minimalist Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FFFDF8;
-  border-left: 2px solid #0A0A0A;
+  background: #F8FAFC;
 }
 ::-webkit-scrollbar-thumb {
-  background: #0A0A0A;
+  background: #CBD5E1;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF5B37;
+  background: #94A3B8;
 }
 
 /* Marquee infinite scroll */

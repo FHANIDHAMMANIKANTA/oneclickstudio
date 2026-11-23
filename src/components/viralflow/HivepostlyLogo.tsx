@@ -27,7 +27,7 @@ export const HivepostlyMascot: React.FC<{ size?: number; className?: string }> =
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={`shrink-0 drop-shadow-md select-none ${className}`}
-      aria-label="Hivepostly Mascot"
+      aria-label="Hiveposters Mascot"
     >
       <defs>
         {/* Hexagon Body 3D Gradient */}
@@ -306,22 +306,22 @@ export const HivepostlyLogo: React.FC<HivepostlyLogoProps> = ({
             <span
               className={`bg-clip-text text-transparent bg-gradient-to-r ${
                 theme === 'light'
-                  ? 'from-[#0A0A0A] via-[#312E81] via-[#7C3AED] to-[#EC4899]'
-                  : 'from-[#FFFFFF] via-[#818CF8] via-[#C084FC] to-[#F472B6]'
+                  ? 'from-[#0F172A] via-[#1D4ED8] to-[#2563EB]'
+                  : 'from-[#FFFFFF] via-[#818CF8] to-[#60A5FA]'
               } ${sizeConfig.textSize}`}
               style={{
-                fontFamily: 'Cabinet Grotesk, Space Grotesk, Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Plus Jakarta Sans, Inter, sans-serif',
                 letterSpacing: '-0.03em',
               }}
             >
-              Hivepostly
+              Hiveposters
             </span>
-            <span className="text-[#EC4899] font-black text-xl leading-none">.</span>
+            <span className="text-[#2563EB] font-black text-xl leading-none">.</span>
           </div>
 
-          {/* Dynamic Underline Swoosh from cyan to magenta */}
+          {/* Dynamic Underline Swoosh from Royal Blue to Indigo */}
           <div
-            className={`w-full mt-0.5 rounded-full bg-gradient-to-r from-[#00E5FF] via-[#7C3AED] to-[#EC4899] ${sizeConfig.swooshH}`}
+            className={`w-full mt-0.5 rounded-full bg-gradient-to-r from-[#2563EB] via-[#6366F1] to-[#7C3AED] ${sizeConfig.swooshH}`}
             style={{
               clipPath: 'polygon(0% 0%, 100% 20%, 95% 100%, 5% 80%)',
             }}

@@ -17,7 +17,7 @@ export const VideoEditorView: React.FC<VideoEditorViewProps> = ({
       onOpenComposer();
     } else if (onSendToComposer) {
       onSendToComposer({
-        caption: 'New video edited in Hivepostly Studio ready to publish!',
+        caption: 'New video edited in Hiveposters Studio ready to publish!',
         videoUrl: recentMedia?.url || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
       });
     }

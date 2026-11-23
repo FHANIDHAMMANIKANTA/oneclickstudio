@@ -22,14 +22,14 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   creditsRemaining = 245,
 }) => {
   return (
-    <header className="sticky top-0 z-20 w-full bg-[#FFFDF8] border-b-2 border-[#0A0A0A] px-6 py-4 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-20 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 px-6 py-3.5 flex items-center justify-between gap-4 shadow-xs">
       {/* Page Title */}
       <div className="flex items-center gap-3">
-        <h1 className="font-display text-2xl font-black tracking-tight text-[#0A0A0A] uppercase">
+        <h1 className="font-display text-xl font-bold tracking-tight text-slate-900">
           {title}
         </h1>
-        <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-[#B8FF5C] border-2 border-[#0A0A0A] text-[10px] font-black tracking-widest uppercase">
-          <span className="w-1.5 h-1.5 bg-[#0A0A0A] rounded-full animate-ping" />
+        <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-full text-[11px] font-semibold tracking-wide">
+          <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
           8 Networks Live
         </span>
       </div>
@@ -37,15 +37,15 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
       {/* Right Controls */}
       <div className="flex items-center gap-3">
         {/* Credits Pill */}
-        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-white border-2 border-[#0A0A0A] text-xs font-bold font-mono">
-          <Sparkles className="w-3.5 h-3.5 text-[#FF5B37]" />
+        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 text-slate-700 rounded-full text-xs font-medium">
+          <Sparkles className="w-3.5 h-3.5 text-blue-600" />
           <span>{creditsRemaining} / 300 Credits</span>
         </div>
 
-        {/* Primary New Post Flame Button */}
+        {/* Primary New Post Royal Blue Button */}
         <button
           onClick={onNewPost}
-          className="px-4 py-2 bg-[#FF5B37] hover:bg-[#ff4921] text-white font-display font-bold text-xs tracking-tight border-2 border-[#0A0A0A] shadow-brutal flex items-center gap-1.5 transition-all hover:translate-x-0.5 hover:translate-y-0.5"
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-lg shadow-sm hover:shadow transition-all flex items-center gap-1.5 cursor-pointer"
         >
           <Plus className="w-4 h-4 text-white" />
           <span>New Post</span>

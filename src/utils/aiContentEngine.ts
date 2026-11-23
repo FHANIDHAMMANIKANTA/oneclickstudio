@@ -990,7 +990,7 @@ To break past 200 views, execute these 3 simultaneous elements in seconds 0–3:
 
 - [ ] Check Account Status: Settings → Account Status → Ensure all green checkmarks (Recommendable).
 - [ ] Remove Flagged Content: If any past post received a guideline strike, archive it immediately.
-- [ ] Clear Third-Party Unauthorized Bot Logins: Only use verified Meta Graph API tools (like Hivepostly).
+- [ ] Clear Third-Party Unauthorized Bot Logins: Only use verified Meta Graph API tools (like Hiveposters).
 - [ ] Stop Engagement Pods: Fake reciprocal likes confuse the algorithmic matching engine.
 - [ ] Clean Up Inactive Followings: Unfollow 50 dead/inactive bot accounts.`,
       },
@@ -1239,7 +1239,7 @@ Topic: ${cleanTopic}
 - Maximum 25 API-published posts per 24 hours per Instagram account.
 - Minimum delay of 15 minutes between consecutive automated posts.
 - Randomized comment reply delays (1.5s to 4.2s) to match authentic human cadence.
-- Hivepostly's built-in token refresher prevents unexpected 401 session expirations.`,
+- Hiveposters' built-in token refresher prevents unexpected 401 session expirations.`,
       },
     ];
   }

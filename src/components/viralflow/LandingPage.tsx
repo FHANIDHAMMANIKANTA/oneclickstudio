@@ -45,7 +45,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
   const marqueeItems = [
     'VIRAL HOOKS',
     'AUTOPUBLISH',
-    'HIVEPOSTLY STUDIO FX',
+    'HIVEPOSTERS STUDIO FX',
     'KARAOKE SUBTITLES',
     'COMMENT-TO-DM BOT',
     '8 NETWORKS SYNC',
@@ -58,7 +58,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
   const faqList = [
     {
       q: 'How do I connect my Instagram, YouTube, and other accounts?',
-      a: 'Hivepostly connects seamlessly using official OAuth 2.0 developer APIs (Meta Graph API for Instagram & Facebook, YouTube Data API v3, TikTok for Developers, X API v2, LinkedIn v2, and Pinterest Business API). Simply click Connect under Platform Integrations to authorize in one click—we never store or ask for your account passwords.',
+      a: 'Hiveposters connects seamlessly using official OAuth 2.0 developer APIs (Meta Graph API for Instagram & Facebook, YouTube Data API v3, TikTok for Developers, X API v2, LinkedIn v2, and Pinterest Business API). Simply click Connect under Platform Integrations to authorize in one click—we never store or ask for your account passwords.',
     },
     {
       q: 'Can I broadcast and schedule to all 8 platforms at once?',
@@ -69,8 +69,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
       a: 'Our Comment-to-DM bot strictly operates within official Meta & Instagram webhook rate limits. It utilizes randomized response jitter (15–45 seconds delay) and dynamic synonym variation so every DM is unique, ensuring 100% account safety while automatically delivering your download links or lead magnets.',
     },
     {
-      q: 'What is Hivepostly Studio (Video Editor) and does it generate auto-karaoke subtitles?',
-      a: 'Hivepostly Studio is a browser-native multi-track video editor powered by WebCodecs. It automatically transcribes your spoken audio, burns in word-by-word animated karaoke subtitles, clips footage to 9:16 vertical reels, applies GPU motion effects, and adds custom watermarks with zero external software needed.',
+      q: 'What is Hiveposters Studio (Video Editor) and does it generate auto-karaoke subtitles?',
+      a: 'Hiveposters Studio is a browser-native multi-track video editor powered by WebCodecs. It automatically transcribes your spoken audio, burns in word-by-word animated karaoke subtitles, clips footage to 9:16 vertical reels, applies GPU motion effects, and adds custom watermarks with zero external software needed.',
     },
     {
       q: 'How does the AI Studio generate 5 answer variants for hooks, scripts, and captions?',
@@ -87,7 +87,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
   ];
 
   return (
-    <div className="min-h-screen bg-[#FFFDF8] text-[#0A0A0A] font-body selection:bg-[#B8FF5C] selection:text-[#0A0A0A] flex flex-col">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-body selection:bg-blue-100 selection:text-blue-900 flex flex-col">
       {/* Legal Modal (Privacy Policy & Terms) */}
       <LegalModal 
         type={legalModalType} 
@@ -95,7 +95,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
       />
 
       {/* 1. Sticky Top Navigation */}
-      <nav className="sticky top-0 z-40 w-full bg-[#FFFDF8] border-b-2 border-[#0A0A0A] px-6 sm:px-12 h-20 flex items-center justify-between">
+      <nav className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 px-6 sm:px-12 h-20 flex items-center justify-between shadow-xs">
         <div className="flex items-center gap-8">
           {/* Logo */}
           <div 
@@ -106,12 +106,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
           </div>
 
           {/* Links */}
-          <div className="hidden md:flex items-center gap-6 text-sm font-bold tracking-tight">
-            <a href="#services" className="hover:text-[#FF5B37] transition-colors">Services</a>
-            <a href="#how-it-works" className="hover:text-[#FF5B37] transition-colors">How It Works</a>
-            <a href="#platforms" className="hover:text-[#FF5B37] transition-colors">Platforms</a>
-            <a href="#pricing" className="hover:text-[#FF5B37] transition-colors">Pricing</a>
-            <a href="#faq" className="hover:text-[#FF5B37] transition-colors">FAQ</a>
+          <div className="hidden md:flex items-center gap-6 text-sm font-semibold tracking-tight text-slate-600">
+            <a href="#services" className="hover:text-blue-600 transition-colors">Services</a>
+            <a href="#how-it-works" className="hover:text-blue-600 transition-colors">How It Works</a>
+            <a href="#platforms" className="hover:text-blue-600 transition-colors">Platforms</a>
+            <a href="#pricing" className="hover:text-blue-600 transition-colors">Pricing</a>
+            <a href="#faq" className="hover:text-blue-600 transition-colors">FAQ</a>
           </div>
         </div>
 
@@ -119,13 +119,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
         <div className="flex items-center gap-3">
           <button
             onClick={onOpenLogin}
-            className="px-4 py-2 text-sm font-bold tracking-tight hover:text-[#FF5B37] transition-colors cursor-pointer"
+            className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-blue-600 transition-colors cursor-pointer"
           >
             Log in
           </button>
           <button
             onClick={onEnterApp}
-            className="px-5 py-2.5 bg-[#0A0A0A] hover:bg-[#FF5B37] text-white hover:text-[#0A0A0A] font-display font-bold text-sm tracking-tight border-2 border-[#0A0A0A] shadow-brutal transition-all hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 cursor-pointer"
+            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-lg shadow-sm hover:shadow transition-all cursor-pointer"
           >
             Start free
           </button>
@@ -137,36 +137,36 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
         {/* Left Headline & CTAs (7 Cols) */}
         <div className="lg:col-span-7 space-y-6 text-left">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#B8FF5C] border-2 border-[#0A0A0A] shadow-brutal-sm text-xs font-black tracking-widest uppercase">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-blue-50 border border-blue-200 rounded-full text-xs font-semibold text-blue-700">
             <span>✨ AI-native social OS</span>
           </div>
 
           {/* Main Headline */}
-          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter leading-[0.98] text-[#0A0A0A]">
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.05] text-slate-900">
             Upload once. Go viral{' '}
-            <span className="bg-[#FF5B37] text-white px-3 inline-block transform -rotate-1 border-2 border-[#0A0A0A] shadow-brutal">
+            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white px-3.5 py-0.5 rounded-xl inline-block shadow-sm">
               everywhere
             </span>
             .
           </h1>
 
           {/* Subtitle */}
-          <p className="text-base sm:text-lg text-neutral-700 font-medium leading-relaxed max-w-xl">
-            Hivepostly AI is the all-in-one command center for creators, agencies and brands to generate, polish, schedule and auto-engage across eight networks without breaking workflow.
+          <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed max-w-xl">
+            Hiveposters is the all-in-one creator command center to generate viral hooks, edit reels with karaoke subtitles, schedule at peak times, and auto-engage across eight networks.
           </p>
 
           {/* Action Buttons */}
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <button
               onClick={onEnterApp}
-              className="px-7 py-4 bg-[#FF5B37] hover:bg-[#ff4921] text-white font-display font-black text-base tracking-tight border-2 border-[#0A0A0A] shadow-brutal flex items-center gap-2 transition-all hover:translate-x-0.5 hover:translate-y-0.5 cursor-pointer"
+              className="px-7 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-base rounded-xl shadow-md hover:shadow-lg flex items-center gap-2 transition-all cursor-pointer"
             >
               <span>Get started free</span>
               <ArrowRight className="w-5 h-5" />
             </button>
             <button
               onClick={onEnterApp}
-              className="px-6 py-4 bg-white hover:bg-neutral-50 text-[#0A0A0A] font-display font-bold text-base tracking-tight border-2 border-[#0A0A0A] shadow-brutal transition-all hover:translate-x-0.5 hover:translate-y-0.5 cursor-pointer"
+              className="px-6 py-3.5 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-base rounded-xl border border-slate-200 shadow-sm hover:shadow transition-all cursor-pointer"
             >
               See it live
             </button>
@@ -264,7 +264,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
               <div className="relative aspect-[4/3] overflow-hidden border-2 border-[#0A0A0A]">
                 <img
                   src="./images/hivepostly-creator.jpg"
-                  alt="Creator using Hivepostly Studio"
+                  alt="Creator using Hiveposters Studio"
                   className="w-full h-full object-cover object-top"
                 />
                 <div className="absolute top-3 left-3 bg-[#0A0A0A] text-white px-3 py-1 font-display font-bold text-xs tracking-wider uppercase border border-white">
@@ -275,7 +275,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
               <div className="p-4 space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="font-display font-bold text-sm text-[#0A0A0A]">
-                    Aanya · Hivepostly Creator Studio
+                    Aanya · Hiveposters Creator Studio
                   </span>
                   <span className="px-2 py-0.5 bg-[#B8FF5C] border border-[#0A0A0A] text-[10px] font-black uppercase font-mono">
                     8 Channels Sync
@@ -341,7 +341,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
               badge: '8 Networks',
             },
             {
-              title: 'Hivepostly Studio',
+              title: 'Hiveposters Studio',
               subtitle: 'WebCodecs multi-track video timeline, word-by-word animated karaoke captions, GPU motion effects, 9:16 reels, and watermark branding.',
               icon: Film,
               color: 'bg-[#B8FF5C]',
@@ -440,7 +440,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
               },
               {
                 step: '02',
-                title: 'Burn Subtitles in Hivepostly Studio',
+                title: 'Burn Subtitles in Hiveposters Studio',
                 desc: 'Auto-transcribe speech, burn in animated karaoke highlights, and crop cleanly to 9:16 mobile feeds.',
                 color: 'bg-[#B8FF5C]',
               },
@@ -852,7 +852,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
               Got questions? We've got receipts.
             </h2>
             <p className="text-xs sm:text-sm text-neutral-600 font-medium max-w-lg mx-auto">
-              Everything you need to know about Hivepostly, API compliance, Comment-to-DM bots, and billing.
+              Everything you need to know about Hiveposters, API compliance, Comment-to-DM bots, and billing.
             </p>
           </div>
 
@@ -949,8 +949,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp, onOpenLogi
           <div className="pt-6 text-xs text-neutral-500 font-mono flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-neutral-900">
             <HivepostlyLogo size="sm" theme="dark" />
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#B8FF5C] inline-block" />
-              <span>All 8 APIs Operational · © 2026 Hivepostly</span>
+              <span className="w-2 h-2 rounded-full bg-blue-500 inline-block" />
+              <span>All 8 APIs Operational · © 2026 Hiveposters</span>
             </div>
           </div>
         </div>

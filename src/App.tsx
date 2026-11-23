@@ -30,7 +30,7 @@ export function App() {
     return 'video_editor';
   });
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [userEmail, setUserEmail] = useState('admin@hivepostly.ai');
+  const [userEmail, setUserEmail] = useState('admin@hiveposters.ai');
   const [creditsRemaining, setCreditsRemaining] = useState(245);
   const [composerInitialCaption, setComposerInitialCaption] = useState<string | undefined>(undefined);
   const [composerInitialMedia, setComposerInitialMedia] = useState<{ url: string; type: 'video' | 'image'; name: string } | undefined>(undefined);
@@ -57,7 +57,7 @@ export function App() {
     switch (tab) {
       case 'dashboard': return 'Command Room';
       case 'composer': return 'Composer & Publisher';
-      case 'video_editor': return 'Video & Reel Editor (Hivepostly Studio)';
+      case 'video_editor': return 'Video & Reel Editor (Hiveposters Studio)';
       case 'ai_studio': return 'AI Content Studio';
       case 'scheduler': return 'Bento Scheduler';
       case 'analytics': return 'Telemetry & Receipts';

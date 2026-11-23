@@ -566,7 +566,7 @@ export const AIStudioView: React.FC<AIStudioViewProps> = ({
                             className="px-3 py-1.5 bg-[#B8FF5C] hover:bg-[#a4f145] text-[#0A0A0A] font-display font-bold text-xs tracking-tight border-2 border-[#0A0A0A] shadow-brutal-sm flex items-center gap-1.5 transition-all cursor-pointer"
                           >
                             <Film className="w-3.5 h-3.5" />
-                            <span>Send to Hivepostly Studio</span>
+                            <span>Send to Hiveposters Studio</span>
                           </button>
                         )}
 

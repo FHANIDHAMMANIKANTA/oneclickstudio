@@ -50,7 +50,7 @@ export const ComposerView: React.FC<ComposerViewProps> = ({
     initialMedia || {
       url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
       type: 'video',
-      name: 'hivepostly_render_1080p.mp4',
+      name: 'hiveposters_render_1080p.mp4',
     }
   );
 
@@ -71,7 +71,7 @@ export const ComposerView: React.FC<ComposerViewProps> = ({
   // Comment-to-DM Bot Asset Upload (Image, Video, or URL)
   const [dmMediaType, setDmMediaType] = useState<'image' | 'video' | 'url'>('url');
   const [dmMediaFile, setDmMediaFile] = useState<{ url: string; name: string; type: 'image' | 'video' } | null>(null);
-  const [dmUrl, setDmUrl] = useState('https://hivepostly.ai/downloads/2026-creator-playbook.pdf');
+  const [dmUrl, setDmUrl] = useState('https://hiveposters.ai/downloads/2026-creator-playbook.pdf');
   const [dmKeyword, setDmKeyword] = useState('TOOLS');
   const [dmMessage, setDmMessage] = useState('Hey creator! 🔥 Here is the exclusive 2026 AI Creator Cheatsheet & Workflow Bundle you requested:');
   const dmFileInputRef = useRef<HTMLInputElement>(null);
@@ -107,7 +107,7 @@ export const ComposerView: React.FC<ComposerViewProps> = ({
         setMedia({
           url: fileUrl,
           type: post.mediaType || 'video',
-          name: post.name || 'hivepostly_studio_edit.mp4',
+          name: post.name || 'hiveposters_studio_edit.mp4',
         });
         if (post.caption) {
           setCaption(post.caption);
@@ -128,14 +128,14 @@ export const ComposerView: React.FC<ComposerViewProps> = ({
   ];
 
   const PLATFORM_ACCOUNTS = [
-    { id: 'Instagram', name: 'Instagram', handle: '@creator.hivepostly', iconColor: 'bg-[#E1306C]', iconText: 'IG' },
-    { id: 'Facebook', name: 'Facebook', handle: 'Hivepostly Creator Page', iconColor: 'bg-[#1877F2]', iconText: 'FB' },
-    { id: 'YouTube', name: 'YouTube', handle: 'Hivepostly Studio (Shorts)', iconColor: 'bg-[#FF0000]', iconText: 'YT' },
-    { id: 'TikTok', name: 'TikTok', handle: '@hivepostly.viral', iconColor: 'bg-[#000000]', iconText: 'TT' },
-    { id: 'Twitter / X', name: 'Twitter / X', handle: '@HivepostlyHQ', iconColor: 'bg-[#0A0A0A]', iconText: '𝕏' },
-    { id: 'Threads', name: 'Threads', handle: '@hivepostly.threads', iconColor: 'bg-[#0A0A0A]', iconText: '@' },
-    { id: 'LinkedIn', name: 'LinkedIn', handle: 'Hivepostly Creator OS', iconColor: 'bg-[#0A66C2]', iconText: 'in' },
-    { id: 'Pinterest', name: 'Pinterest', handle: 'Hivepostly Idea Pins', iconColor: 'bg-[#E60023]', iconText: 'P' },
+    { id: 'Instagram', name: 'Instagram', handle: '@creator.hiveposters', iconColor: 'bg-[#E1306C]', iconText: 'IG' },
+    { id: 'Facebook', name: 'Facebook', handle: 'Hiveposters Creator Page', iconColor: 'bg-[#1877F2]', iconText: 'FB' },
+    { id: 'YouTube', name: 'YouTube', handle: 'Hiveposters Studio (Shorts)', iconColor: 'bg-[#FF0000]', iconText: 'YT' },
+    { id: 'TikTok', name: 'TikTok', handle: '@hiveposters.viral', iconColor: 'bg-[#000000]', iconText: 'TT' },
+    { id: 'Twitter / X', name: 'Twitter / X', handle: '@HivepostersHQ', iconColor: 'bg-[#0A0A0A]', iconText: '𝕏' },
+    { id: 'Threads', name: 'Threads', handle: '@hiveposters.threads', iconColor: 'bg-[#0A0A0A]', iconText: '@' },
+    { id: 'LinkedIn', name: 'LinkedIn', handle: 'Hiveposters Creator OS', iconColor: 'bg-[#0A66C2]', iconText: 'in' },
+    { id: 'Pinterest', name: 'Pinterest', handle: 'Hiveposters Idea Pins', iconColor: 'bg-[#E60023]', iconText: 'P' },
   ];
 
   const togglePlatform = (p: string) => {

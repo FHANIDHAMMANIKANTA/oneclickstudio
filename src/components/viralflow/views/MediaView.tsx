@@ -253,7 +253,7 @@ export const MediaView: React.FC<MediaViewProps> = ({
                   <button
                     onClick={() => onOpenInEditor(asset.url, asset.title)}
                     className="p-1.5 bg-[#B8FF5C] hover:bg-[#a5ee49] text-[#0A0A0A] border border-[#0A0A0A] text-[10px] font-bold"
-                    title="Open in Hivepostly Studio"
+                    title="Open in Hiveposters Studio"
                   >
                     Edit
                   </button>
